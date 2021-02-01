@@ -23,7 +23,8 @@ L'utilisateur sélectionne 1. Le programme pose les questions suivantes à l'uti
 
 
 # CONTRAINTES #
-Le langage de programmation utilisé est Python.
-La recherche doit s'effectuer sur une base MySQL.
-Cette base de données est alimentée grâce à l'API de Open Food Facts. Une fois ces donénes récupérées, on ne se connecte plus à l'API. On récupère seulement une dizaine de catégories d'aliments et une centaine d'aliments de chaque catégorie.
+* Le langage de programmation utilisé est Python.
+* Si l'utilisateur entre un caractère qui n'est pas un chiffre, le programme doit lui répéter la question.
+* La recherche doit s'effectuer sur une base MySQL.
+* Cette base de données est alimentée grâce à l'API de Open Food Facts. Une fois ces données récupérées, on ne se connecte plus à l'API. On récupère seulement une dizaine de catégories d'aliments et une cinquantaine d'aliments de chaque catégorie.
 
