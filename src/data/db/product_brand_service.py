@@ -15,11 +15,11 @@ class ProductBrandService:
         connector = Connector()
         cnx = connector.connection()
         cursor = cnx.cursor()
-        
+
         query = ("INSERT INTO products_brands(product_id, brand_id) VALUES(%s, %s)")
         cursor.execute(query, (product_brand.product_id, product_brand.brand_id))
         cnx.commit()
-        
+
         cursor.close()
         cnx.close()
 

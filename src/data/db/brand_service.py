@@ -15,24 +15,24 @@ class BrandService:
         connector = Connector()
         cnx = connector.connection()
         cursor = cnx.cursor()
-        
+
         query = ("INSERT INTO brands(designation) VALUES(%s)")
-        cursor.execute(query, (brand.designation,))            
+        cursor.execute(query, (brand.designation,))
         cnx.commit()
-        
+
         query = ("SELECT id from brands")
         cursor.execute(query)
-        
+
         for brand_id in cursor:
             brand.id = brand_id[0]
-        
+
         cursor.close()
         cnx.close()
 
     def get_brands(self):
         """ Get brands object from database """
         brands = []
-        
+
         connector = Connector()
         cnx = connector.connection()
         cursor = cnx.cursor()
@@ -40,12 +40,12 @@ class BrandService:
         query = 'SELECT designation FROM brands'
 
         cursor.execute(query)
-        
+
         for brand in cursor:
             brand = Brand('designation')
             brands.append(brand)
-        
+
         cursor.close()
         connector.close()
-        
+
         return brands

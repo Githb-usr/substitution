@@ -15,7 +15,7 @@ class ObjectsFactory:
         ObjectsFactory class
         To manage the creation of objects linked to the MySQL database
     """
-    
+
     def __init__(self):
         """ Constructor """
         self.data_cleaner = DataCleaner()
@@ -31,17 +31,17 @@ class ObjectsFactory:
             :rtype: list()
         """
         products_dict_list = self.data_cleaner.create_products_dict_list()
-        
+
         for product in products_dict_list:
             product = Product(
                 code = product['code'],
                 product_name = product['product_name'],
-                nutriscore_grade = product['nutriscore_grade'],
+                nutriscore_grade = product['nutriscore_grade'].capitalize(),
                 nova_group = product['nova_group'],
                 product_url = product['url']
                 )
             self.product_object_list.append(product)
-        
+
         return self.product_object_list
 
     def create_category_object_list(self):
@@ -55,9 +55,9 @@ class ObjectsFactory:
         for product_cat in categories_of_products_list:
             category = Category(cat_name=product_cat)
             self.category_object_list.append(category)
-        
+
         return self.category_object_list
-    
+
     def create_brand_object_list(self):
         """
             We create the brand objects from the list of the brands of products
@@ -65,13 +65,13 @@ class ObjectsFactory:
             :rtype: list()
         """
         brands_of_products_list = self.data_cleaner.create_brands_of_products_list()
-        
+
         for product_brd in brands_of_products_list:
             brand = Brand(brand_name=product_brd)
             self.brand_object_list.append(brand)
-        
+
         return self.brand_object_list
-    
+
     def create_store_object_list(self):
         """
             We create the store objects from the list of the stores of products
@@ -79,11 +79,11 @@ class ObjectsFactory:
             :rtype: list()
         """
         stores_of_products_list = self.data_cleaner.create_stores_of_products_list()
-        
+
         for product_sto in stores_of_products_list:
             store = Store(store_name=product_sto)
             self.store_object_list.append(store)
-        
+
         return self.store_object_list
 
     def create_product_category_object_list(self):
@@ -111,7 +111,7 @@ class ObjectsFactory:
             :rtype: list()
         """
         product_brand_object_list = []
-        
+
         for product in self.data_cleaner.products_dict_list:
             brands_list = list(self.data_cleaner.clean_fields(product['brands']))
             for brand in brands_list:
@@ -129,7 +129,7 @@ class ObjectsFactory:
             :rtype: list()
         """
         product_store_object_list = []
-        
+
         for product in self.data_cleaner.products_dict_list:
             stores_list = list(self.data_cleaner.clean_fields(product['stores']))
             for store in stores_list:
@@ -137,5 +137,5 @@ class ObjectsFactory:
                     if sto.designation == store:
                         prod_store = ProductStore(product['code'], sto.id)
                         product_store_object_list.append(prod_store)
-        
+
         return product_store_object_list

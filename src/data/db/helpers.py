@@ -16,12 +16,12 @@ class Helpers:
         Helpers class
         To manage the populating of the MySQL database
     """
-    
+
     def __init__(self):
         """ Constructor """
         self.data_cleaner = DataCleaner()
         self.objects_factory = ObjectsFactory()
-    
+
     def insert_products(self):
         """ The product data is inserted into the MySQL database. """
         service = ProductService()
@@ -30,7 +30,7 @@ class Helpers:
 
         for product in products:
             service.insert(product)
-    
+
     def insert_categories(self):
         """ The category data is inserted into the MySQL database. """
         service = CategoryService()
@@ -45,7 +45,6 @@ class Helpers:
         service = BrandService()
         brands = self.objects_factory.create_brand_object_list()
         brands = set(brands)
-        
         for brand in brands:
             service.insert(brand)
 
@@ -54,10 +53,9 @@ class Helpers:
         service = StoreService()
         stores = self.objects_factory.create_store_object_list()
         stores = set(stores)
-        
         for store in stores:
             service.insert(store)
-    
+
     def insert_products_categories(self):
         """ The product_category data is inserted into the MySQL database. """
         service = ProductCategoryService()
@@ -66,25 +64,25 @@ class Helpers:
 
         for p_c in products_categories:
             service.insert(p_c)
-    
+
     def insert_products_brands(self):
         """ The product_brand data is inserted into the MySQL database. """
         service = ProductBrandService()
         products_brands = self.objects_factory.create_product_brand_object_list()
         products_brands = set(products_brands)
-        
+
         for p_c in products_brands:
             service.insert(p_c)
-    
+
     def insert_products_stores(self):
         """ The product_store data is inserted into the MySQL database. """
         service = ProductStoreService()
         products_stores = self.objects_factory.create_product_store_object_list()
         products_stores = set(products_stores)
-        
+
         for p_c in products_stores:
             service.insert(p_c)
-    
+
     def populate_database(self):
         """ We populate the MySQL database """
         self.insert_products()

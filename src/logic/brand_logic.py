@@ -4,10 +4,15 @@
 from src.data.db.brand_service import BrandService
 
 class BrandLogic:
-    
+    """
+        BrandLogic class
+        To manage the Brand object in the application
+    """
+
     def __init__(self):
         """ Constructor """
         self.service = BrandService()
-    
+
     def get_brands(self):
+        """ Get brands object """
         self.service.get_brands()

@@ -6,12 +6,12 @@ class Brand:
         Brand class
         To manage Brand object
     """
-    
+
     def __init__(self, brand_name):
         """ Constructor """
         self.id = None
         self.designation = brand_name
-    
+
     def get_id(self):
         """ Get Brand() id """
         return self.id

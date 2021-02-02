@@ -9,7 +9,7 @@ class Connector:
         To manage the connection to the MySQL database
     """
     cnx = None
-    
+
     def connection(self):
         """
             To open the connection to the MySQL database
@@ -22,8 +22,7 @@ class Connector:
             )
 
         return self.cnx
-    
+
     def close(self):
         """ To close the connection to the MySQL database """
         self.cnx.close()
-        
