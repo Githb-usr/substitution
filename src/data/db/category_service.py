@@ -4,6 +4,8 @@
 from src.data.db.connector import Connector
 from src.data.model.category import Category
 
+from config.settings import MINIMUM_NUMBER_OF_PRODUCTS_PER_CATEGORY, MAXIMUM_NUMBER_OF_CHARACTERS_PER_CATEGORY
+
 class CategoryService:
     """
         CategoryService class
@@ -29,20 +31,32 @@ class CategoryService:
         cursor.close()
         cnx.close()
 
-    def get_categories(self):
-        """ Get categories object from database """
+    def get_categories_to_select(self):
+        """ Get categories to select from database """
         categories = []
 
         connector = Connector()
         cnx = connector.connection()
         cursor = cnx.cursor()
 
-        query = 'SELECT designation FROM categories'
+        query = ("SELECT DISTINCT id, designation \
+                FROM categories c \
+                INNER JOIN products_categories pc \
+                ON pc.category_id = c.id \
+                WHERE ( \
+                    SELECT COUNT(product_id) \
+                    FROM products_categories pc \
+                    WHERE pc.category_id = c.id \
+                    ) > (%s) \
+                AND ( \
+                    SELECT LENGTH(c.designation) < 31 \
+                    ) \
+                ORDER BY c.designation ASC"
+        )
+        cursor.execute(query, (MINIMUM_NUMBER_OF_PRODUCTS_PER_CATEGORY,))
 
-        cursor.execute(query)
-
-        for category in cursor:
-            category = Category('designation')
+        for element in cursor:
+            category = Category(element[1], element[0])
             categories.append(category)
 
         cursor.close()

@@ -13,6 +13,6 @@ class StoreLogic:
         """ Constructor """
         self.service = StoreService()
 
-    def get_stores(self):
-        """ Get stores object """
+    def get_all(self):
+        """ Get all stores object """
         self.service.get_stores()

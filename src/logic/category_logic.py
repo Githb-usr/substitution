@@ -12,7 +12,7 @@ class CategoryLogic:
     def __init__(self):
         """ Constructor """
         self.service = CategoryService()
-
-    def get_categories(self):
-        """ Get categories object """
-        self.service.get_categories()
+    
+    def get_categories_to_select(self):
+        """ Get categories to select """
+        return self.service.get_categories_to_select()

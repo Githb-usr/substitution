@@ -39,8 +39,8 @@ class ProductService:
         cursor.close()
         connector.close()
 
-    def get_products(self):
-        """ Get products object from database """
+    def get_all(self):
+        """ Get all products object from database """
         products = []
 
         connector = Connector()

@@ -13,6 +13,6 @@ class BrandLogic:
         """ Constructor """
         self.service = BrandService()
 
-    def get_brands(self):
-        """ Get brands object """
+    def get_all(self):
+        """ Get all brands object """
         self.service.get_brands()

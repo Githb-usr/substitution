@@ -7,9 +7,9 @@ class Store:
         To manage Store object
     """
 
-    def __init__(self, store_name):
+    def __init__(self, store_name, id=None):
         """ Constructor """
-        self.id = None
+        self.id = id
         self.designation = store_name
 
     def get_id(self):

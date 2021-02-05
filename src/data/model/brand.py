@@ -7,9 +7,9 @@ class Brand:
         To manage Brand object
     """
 
-    def __init__(self, brand_name):
+    def __init__(self, brand_name, id=None):
         """ Constructor """
-        self.id = None
+        self.id = id
         self.designation = brand_name
 
     def get_id(self):

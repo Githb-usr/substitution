@@ -29,8 +29,8 @@ class StoreService:
         cursor.close()
         cnx.close()
 
-    def get_stores(self):
-        """ Get stores object from database """
+    def get_all(self):
+        """ Get all stores object from database """
         stores = []
 
         connector = Connector()

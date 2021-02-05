@@ -23,6 +23,6 @@ class ProductBrandService:
         cursor.close()
         cnx.close()
 
-    def get_products_brands(self):
-        """ Get products_brands object from database """
+    def get_all(self):
+        """ Get all products_brands object from database """
         pass

@@ -23,6 +23,6 @@ class ProductCategoryService:
         cursor.close()
         cnx.close()
 
-    def get_products_categories(self):
-        """ Get products_categories object from database """
+    def get_all(self):
+        """ Get all products_categories object from database """
         pass

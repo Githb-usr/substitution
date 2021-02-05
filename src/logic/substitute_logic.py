@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from src.data.db.substitute_service import SubstituteService
+
+class SubstituteLogic:
+    """
+        SubstituteLogic class
+        To manage the Substitute object in the application
+    """
+
+    def __init__(self):
+        """ Constructor """
+        self.service = SubstituteService()
+
+    def get_all(self):
+        """ Get all substitutes object """
+        return self.service.get_all()

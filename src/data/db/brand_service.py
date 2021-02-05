@@ -29,8 +29,8 @@ class BrandService:
         cursor.close()
         cnx.close()
 
-    def get_brands(self):
-        """ Get brands object from database """
+    def get_all(self):
+        """ Get all brands object from database """
         brands = []
 
         connector = Connector()

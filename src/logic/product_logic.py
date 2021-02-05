@@ -13,6 +13,6 @@ class ProductLogic:
         """ Constructor """
         self.service = ProductService()
 
-    def get_products(self):
-        """ Get products object """
+    def get_all(self):
+        """ Get all products object """
         self.service.get_products()

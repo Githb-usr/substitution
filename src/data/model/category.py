@@ -8,10 +8,10 @@ class Category:
         Category class
         To manage Category object
     """
-
-    def __init__(self, cat_name):
+       
+    def __init__(self, cat_name, id=None):
         """ Constructor """
-        self.id = None
+        self.id = id
         self.designation = cat_name
 
     def get_id(self):
