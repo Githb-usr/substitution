@@ -15,4 +15,8 @@ class BrandLogic:
 
     def get_all(self):
         """ Get all brands object """
-        self.service.get_brands()
+        return self.service.get_all()
+
+    def get_id_per_name(self, name):
+        """ Get brand's id from name """
+        return self.service.get_id_per_name(name)

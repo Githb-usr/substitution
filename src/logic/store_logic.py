@@ -15,4 +15,8 @@ class StoreLogic:
 
     def get_all(self):
         """ Get all stores object """
-        self.service.get_stores()
+        return self.service.get_stores()
+        
+    def get_id_per_name(self, name):
+        """ Get store's id from name """
+        return self.service.get_id_per_name(name)

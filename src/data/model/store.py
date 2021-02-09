@@ -13,9 +13,9 @@ class Store:
         self.designation = store_name
 
     def get_id(self):
-        """ Get Store() id """
+        """ Get Store id """
         return self.id
 
     def get_designation(self):
-        """ Get Store() designation """
+        """ Get Store designation """
         return self.designation

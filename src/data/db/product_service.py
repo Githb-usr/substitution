@@ -21,9 +21,10 @@ class ProductService:
                                     designation,
                                     nutriscore,
                                     novascore,
-                                    url_
+                                    url_,
+                                    brand_id
                                     )
-                    VALUES(%s, %s, %s, %s, %s)'''
+                    VALUES(%s, %s, %s, %s, %s, %s)'''
                 )
 
         cursor.execute(query, (
@@ -31,14 +32,15 @@ class ProductService:
                         product.designation,
                         product.nutriscore,
                         product.novascore,
-                        product.url
+                        product.url,
+                        product.brand_id
                         )
                        )
         cnx.commit()
 
         cursor.close()
         connector.close()
-
+        
     def get_all(self):
         """ Get all products object from database """
         products = []
@@ -47,12 +49,92 @@ class ProductService:
         cnx = connector.connection()
         cursor = cnx.cursor()
 
-        query = 'SELECT id, designation, nutriscore, novascore, url_ FROM products'
-
+        query = (
+                "SELECT p.id, p.designation, b.designation, p.nutriscore, p.novascore, p.url_ \
+                FROM (products p, brands b) \
+                WHERE (p.brand_id = b.id)"
+            )
         cursor.execute(query)
 
-        for product in cursor:
-            product = Product('id', 'designation', 'nutriscore', 'novascore', 'url_')
+        for element in cursor:
+            product = Product(
+                code=element[0],
+                product_name=element[1],
+                brand_name=element[2],
+                nutriscore_grade=element[3],
+                nova_group=element[4], 
+                product_url=element[5]
+                )
+            products.append(product)
+
+        cursor.close()
+        connector.close()
+
+        return products
+    
+    def get_all_products_of_category(self, category_id):
+        """ Get all products object for a single category from database """
+        products = []
+
+        connector = Connector()
+        cnx = connector.connection()
+        cursor = cnx.cursor()
+
+        query = ("SELECT p.id, p.designation, b.designation, p.nutriscore, p.novascore, p.url_ \
+                FROM (products p, brands b) \
+                INNER JOIN products_categories pc \
+                ON pc.product_id = p.id \
+                WHERE p.brand_id = b.id \
+                AND pc.category_id = (%s) \
+                ORDER BY p.designation ASC"
+        )
+        cursor.execute(query, (category_id,))
+
+        for element in cursor:
+            product = Product(
+                code=element[0],
+                product_name=element[1],
+                brand_name=element[2],
+                nutriscore_grade=element[3],
+                nova_group=element[4], 
+                product_url=element[5]
+                )
+            products.append(product)
+
+        cursor.close()
+        connector.close()
+
+        return products
+    
+    def get_substitutes_list(self, category_id, selected_product):
+        """ We are looking for a better product than the one selected from database """
+        products = []
+
+        connector = Connector()
+        cnx = connector.connection()
+        cursor = cnx.cursor()
+        
+        query = ("SELECT DISTINCT p.id, p.designation, b.designation, p.nutriscore, p.novascore, p.url_ \
+                FROM (products p, brands b) \
+                INNER JOIN products_categories pc \
+                ON pc.product_id = p.id \
+                WHERE p.brand_id = b.id \
+                AND pc.category_id = (%s) \
+                AND p.nutriscore < (%s) \
+                AND p.novascore <= (%s) \
+                ORDER BY p.nutriscore DESC, p.novascore DESC"
+        )
+        cursor.execute(query, (category_id, selected_product.get_nutriscore(),selected_product.get_novascore()))
+
+        for element in cursor:
+            product = Product(
+                code=element[0],
+                product_name=element[1],
+                brand_name=element[2],
+                nutriscore_grade=element[3],
+                nova_group=element[4], 
+                product_url=element[5]
+                )
             products.append(product)
 
         cursor.close()

@@ -17,7 +17,7 @@ class ProductCategoryService:
         cursor = cnx.cursor()
 
         query = ("INSERT INTO products_categories(product_id, category_id) VALUES(%s, %s)")
-        cursor.execute(query, (product_category.product_id, product_category.category_id))
+        cursor.execute(query, (product_category.get_product_id(), product_category.get_category_id()))
         cnx.commit()
 
         cursor.close()

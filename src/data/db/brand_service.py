@@ -23,8 +23,8 @@ class BrandService:
         query = ("SELECT id from brands")
         cursor.execute(query)
 
-        for brand_id in cursor:
-            brand.id = brand_id[0]
+        for element in cursor:
+            brand.id = element[0]
 
         cursor.close()
         cnx.close()
@@ -37,15 +37,33 @@ class BrandService:
         cnx = connector.connection()
         cursor = cnx.cursor()
 
-        query = 'SELECT designation FROM brands'
+        query = 'SELECT id, designation FROM brands'
 
         cursor.execute(query)
 
-        for brand in cursor:
-            brand = Brand('designation')
+        for element in cursor:
+            brand = Brand(id=element[0], brand_name=element[1])
             brands.append(brand)
 
         cursor.close()
         connector.close()
 
         return brands
+    
+    def get_id_per_name(self, name):
+        """ Get brand's id from brand's name """
+        brand_id = int()
+        connector = Connector()
+        cnx = connector.connection()
+        cursor = cnx.cursor()
+
+        query = ("SELECT id FROM brands WHERE designation = (%s)")
+        cursor.execute(query, (name,))
+
+        for element in cursor:
+            brand_id = int(element[0])
+
+        cursor.close()
+        connector.close()
+
+        return brand_id

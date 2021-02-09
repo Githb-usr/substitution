@@ -23,8 +23,8 @@ class StoreService:
         query = ("SELECT id from stores")
         cursor.execute(query)
 
-        for store_id in cursor:
-            store.id = store_id[0]
+        for element in cursor:
+            store.id = element[0]
 
         cursor.close()
         cnx.close()
@@ -32,20 +32,36 @@ class StoreService:
     def get_all(self):
         """ Get all stores object from database """
         stores = []
-
         connector = Connector()
         cnx = connector.connection()
         cursor = cnx.cursor()
 
-        query = 'SELECT designation FROM stores'
-
+        query = 'SELECT id, designation FROM stores'
         cursor.execute(query)
 
-        for store in cursor:
-            store = Store('designation')
+        for element in cursor:
+            store = Store(id=element[0], store_name=element[1])
             stores.append(store)
 
         cursor.close()
         connector.close()
 
         return stores
+    
+    def get_id_per_name(self, name):
+        """ Get store's id from store's name """
+        store_id = int()
+        connector = Connector()
+        cnx = connector.connection()
+        cursor = cnx.cursor()
+
+        query = ("SELECT id FROM stores WHERE designation = (%s)")
+        cursor.execute(query, (name,))
+
+        for element in cursor:
+            store_id = int(element[0])
+
+        cursor.close()
+        connector.close()
+
+        return store_id

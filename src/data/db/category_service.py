@@ -4,7 +4,7 @@
 from src.data.db.connector import Connector
 from src.data.model.category import Category
 
-from config.settings import MINIMUM_NUMBER_OF_PRODUCTS_PER_CATEGORY, MAXIMUM_NUMBER_OF_CHARACTERS_PER_CATEGORY
+from config.settings import MINIMUM_NUMBER_OF_PRODUCTS_PER_CATEGORY, MAXIMUM_NUMBER_OF_PRODUCTS_PER_CATEGORY
 
 class CategoryService:
     """
@@ -19,17 +19,54 @@ class CategoryService:
         cursor = cnx.cursor()
 
         query = ("INSERT INTO categories(designation) VALUES(%s)")
-        cursor.execute(query, (category.designation,))
+        cursor.execute(query, (category.get_designation(),))
         cnx.commit()
 
         query = ("SELECT id from categories")
         cursor.execute(query)
 
-        for cat_id in cursor:
-            category.id = cat_id[0]
+        for element in cursor:
+            category.id = element[0]
 
         cursor.close()
         cnx.close()
+        
+    def get_all(self):
+        """ Get all categories object from database """
+        categories = []
+        connector = Connector()
+        cnx = connector.connection()
+        cursor = cnx.cursor()
+
+        query = ("SELECT id, designation FROM categories")
+        cursor.execute(query)
+
+        for element in cursor:
+            category = Category(id=element[0], cat_name=element[1])
+            categories.append(category)
+
+        cursor.close()
+        connector.close()
+
+        return categories
+    
+    def get_id_per_name(self, name):
+        """ Get category's id from category's name """
+        category_id = int()
+        connector = Connector()
+        cnx = connector.connection()
+        cursor = cnx.cursor()
+
+        query = ("SELECT id FROM categories WHERE designation = (%s)")
+        cursor.execute(query, (name,))
+
+        for element in cursor:
+            category_id = int(element[0])
+
+        cursor.close()
+        connector.close()
+
+        return category_id
 
     def get_categories_to_select(self):
         """ Get categories to select from database """
@@ -49,14 +86,19 @@ class CategoryService:
                     WHERE pc.category_id = c.id \
                     ) > (%s) \
                 AND ( \
+                    SELECT COUNT(product_id) \
+                    FROM products_categories pc \
+                    WHERE pc.category_id = c.id \
+                    ) < (%s) \
+                AND ( \
                     SELECT LENGTH(c.designation) < 31 \
                     ) \
                 ORDER BY c.designation ASC"
         )
-        cursor.execute(query, (MINIMUM_NUMBER_OF_PRODUCTS_PER_CATEGORY,))
+        cursor.execute(query, (MINIMUM_NUMBER_OF_PRODUCTS_PER_CATEGORY, MAXIMUM_NUMBER_OF_PRODUCTS_PER_CATEGORY))
 
         for element in cursor:
-            category = Category(element[1], element[0])
+            category = Category(id=element[0], cat_name=element[1])
             categories.append(category)
 
         cursor.close()

@@ -13,6 +13,10 @@ class ProductLogic:
         """ Constructor """
         self.service = ProductService()
 
-    def get_all(self):
-        """ Get all products object """
-        self.service.get_products()
+    def get_all_products_of_category(self, category_id):
+        """ Get all products of selected category """
+        return self.service.get_all_products_of_category(category_id)
+    
+    def get_substitutes_list(self, category_id, selected_product):
+        """ Get substitutes of selected product """
+        return self.service.get_substitutes_list(category_id, selected_product)

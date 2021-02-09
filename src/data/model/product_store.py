@@ -13,9 +13,9 @@ class ProductStore:
         self.store_id = store_id
 
     def get_product_id(self):
-        """ Get ProductStore() product_id """
+        """ Get ProductStore product_id """
         return self.product_id
 
     def get_store_id(self):
-        """ Get ProductStore() store_id """
+        """ Get ProductStore store_id """
         return self.store_id

@@ -13,9 +13,9 @@ class ProductCategory:
         self.category_id = category_id
 
     def get_product_id(self):
-        """ Get ProductCategory() product_id """
+        """ Get ProductCategory product_id """
         return self.product_id
 
     def get_category_id(self):
-        """ Get ProductCategory() category_id """
+        """ Get ProductCategory category_id """
         return self.category_id

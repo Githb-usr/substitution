@@ -14,6 +14,12 @@ class DataCleaner:
     def __init__(self):
         """ Constructor """
         self.products_dict_list = []
+        self.clean_brands = []
+        self.clean_categories = []
+        self.clean_stores = []
+        self.brand_of_prod = []
+        self.cats_of_prod = []
+        self.stores_of_prod = []
 
     def create_products_dict_list(self):
         """
@@ -28,9 +34,7 @@ class DataCleaner:
         all_data = off_api.get_full_api_products()
         complete_data = [
             product for product in all_data
-            if len(product) == len(FIELDS_OF_PRODUCT_LIST) and all(product.values())
-            # if all(key in product for key in FIELDS_OF_PRODUCT_LIST)
-            
+            if len(product) == len(FIELDS_OF_PRODUCT_LIST) and all(product.values())            
             ]
 
         for data in complete_data:
@@ -51,66 +55,99 @@ class DataCleaner:
 
         field_split = field_string.split(',')
         for value in field_split:
-            value_strip = value.strip()
+            value_strip = value.strip().capitalize()
             clean_field_list.append(value_strip)
 
         clean_field_list = list(set(clean_field_list))
 
         return clean_field_list
 
-    def create_categories_of_products_list(self):
+    def clean_brands_field(self, field_string):
         """
-            The list of categories to be included in the database is created (after cleaning)
-            from the product categories retrieved via the Open Food Facts API.
-            :return: A list of categories is obtained, without duplicates
-            :rtype: list()
+            Strings in the product brand field containing several values are transformed
+            into strings containing a single value (the first one).
+            :param field_string: string with several values separated by commas
+            :return: A string with one brand only
+            :rtype: string
         """
-        categories_of_products_list = []
+        clean_field_list = self.clean_fields(field_string)
+        first_brand = clean_field_list[0].title()
 
-        for product in self.products_dict_list:
-            clean_categories = self.clean_fields(product['categories'])
-            for category in clean_categories:
-                if category != '':
-                    categories_of_products_list.append(category)
-
-        categories_of_products_list = list(set(categories_of_products_list))
-
-        return categories_of_products_list
-
-    def create_brands_of_products_list(self):
+        return first_brand
+    
+    def extract_strings_field(self):
         """
-            The list of brands to be included in the database is created (after cleaning)
-            from the product brands retrieved via the Open Food Facts API.
-            :return: A list of brands is obtained, without duplicates
-            :rtype: list()
-        """
-        brands_of_products_list = []
-
-        for product in self.products_dict_list:
-            clean_brands = self.clean_fields(product['brands'])
-            for brand in clean_brands:
-                if brand != '':
-                    brands_of_products_list.append(brand)
-
-        brands_of_products_list = list(set(brands_of_products_list))
-
-        return brands_of_products_list
-
-    def create_stores_of_products_list(self):
-        """
-            The list of stores to be included in the database is created (after cleaning)
+            xxx
             from the product stores retrieved via the Open Food Facts API.
-            :return: A list of stores is obtained, without duplicates
-            :rtype: list()
         """
-        stores_of_products_list = []
-
         for product in self.products_dict_list:
-            clean_stores = self.clean_fields(product['stores'])
-            for store in clean_stores:
+            product_clean_brand = self.clean_brands_field(product['brands'])
+            self.brand_of_prod.append((product['code'], product_clean_brand))
+            if product_clean_brand != '':
+                self.clean_brands.append(product_clean_brand)
+            self.clean_brands = list(set(self.clean_brands))
+            
+            product_clean_categories = self.clean_fields(product['categories'])
+            self.cats_of_prod.append((product['code'], product_clean_categories))
+            for category in product_clean_categories:
+                if category != '':
+                    self.clean_categories.append(category)
+                self.clean_categories = list(set(self.clean_categories))
+            
+            product_clean_stores = self.clean_fields(product['stores'])
+            self.stores_of_prod.append((product['code'], product_clean_stores))
+            for store in product_clean_stores:
                 if store != '':
-                    stores_of_products_list.append(store)
+                    self.clean_stores.append(store)
+                self.clean_stores = list(set(self.clean_stores))
+    
+    # def create_brands_of_products_list(self):
+    #     """
+    #         The list of brands to be included in the database is created (after cleaning)
+    #         from the product brands retrieved via the Open Food Facts API.
+    #         :return: A list of brands is obtained, without duplicates
+    #         :rtype: list()
+    #     """
+    #     brands_of_products_list = []
 
-        stores_of_products_list = list(set(stores_of_products_list))
+    #     for brand in self.clean_brands:
+    #         if brand != '':
+    #             brands_of_products_list.append(brand)
 
-        return stores_of_products_list
+    #     brands_of_products_list = list(set(brands_of_products_list))
+
+    #     return brands_of_products_list
+
+    # def create_categories_of_products_list(self):
+    #     """
+    #         The list of categories to be included in the database is created (after cleaning)
+    #         from the product categories retrieved via the Open Food Facts API.
+    #         :return: A list of categories is obtained, without duplicates
+    #         :rtype: list()
+    #     """
+    #     categories_of_products_list = []
+
+    #     for category in self.clean_categories:
+    #         if category != '':
+    #             categories_of_products_list.append(category)
+
+    #     # categories_of_products_list = list(set(categories_of_products_list))
+
+    #     return categories_of_products_list
+
+    # def create_stores_of_products_list(self):
+    #     """
+    #         The list of stores to be included in the database is created (after cleaning)
+    #         from the product stores retrieved via the Open Food Facts API.
+    #         :return: A list of stores is obtained, without duplicates
+    #         :rtype: list()
+    #     """
+    #     stores_of_products_list = []
+
+    #     for store in self.clean_stores:
+    #         if store != '':
+    #             stores_of_products_list.append(store)
+
+    #     stores_of_products_list = list(set(stores_of_products_list))
+
+    #     return stores_of_products_list

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import requests
+import time
 
 from config.settings import API_BASE_URL, PAGE_SIZE, PAGE_NUMBER, FIELDS_OF_PRODUCT
 
@@ -46,5 +47,7 @@ class OpenFoodApi:
             products_data = self.get_api_products(i)
             for data in products_data:
                 full_products_data.append(data)
+                
+            time.sleep(1)
 
         return full_products_data
