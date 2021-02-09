@@ -13,6 +13,10 @@ class CategoryLogic:
         """ Constructor """
         self.service = CategoryService()
         
+    def insert(self, category):
+        """ Insert substitute data in database """
+        return self.service.insert(category)
+        
     def get_all(self):
         """ Get all categories object """
         return self.service.get_all()

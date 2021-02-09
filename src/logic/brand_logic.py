@@ -12,6 +12,10 @@ class BrandLogic:
     def __init__(self):
         """ Constructor """
         self.service = BrandService()
+        
+    def insert(self, brand):
+        """ Insert brand data in database """
+        return self.service.insert(brand)
 
     def get_all(self):
         """ Get all brands object """

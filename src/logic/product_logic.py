@@ -12,6 +12,10 @@ class ProductLogic:
     def __init__(self):
         """ Constructor """
         self.service = ProductService()
+        
+    def insert(self, product):
+        """ Insert substitute data in database """
+        return self.service.insert(product)
 
     def get_all_products_of_category(self, category_id):
         """ Get all products of selected category """

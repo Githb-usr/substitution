@@ -3,12 +3,12 @@
 
 from src.data.api.data_cleaner import DataCleaner
 from src.data.api.objects_factory import ObjectsFactory
-from src.data.db.brand_service import BrandService
-from src.data.db.category_service import CategoryService
-from src.data.db.product_service import ProductService
-from src.data.db.store_service import StoreService
-from src.data.db.product_category_service import ProductCategoryService
-from src.data.db.product_store_service import ProductStoreService
+from src.logic.brand_logic import BrandLogic
+from src.logic.category_logic import CategoryLogic
+from src.logic.product_logic import ProductLogic
+from src.logic.store_logic import StoreLogic
+from src.logic.product_category_logic import ProductCategoryLogic
+from src.logic.product_store_logic import ProductStoreLogic
 
 class Helpers:
     """
@@ -24,59 +24,59 @@ class Helpers:
     def insert_brands(self):
         """ The category data is inserted into the MySQL database. """
         complete_brands = []
-        service = BrandService()
+        logic = BrandLogic()
         brands = self.objects_factory.create_brand_object_list()
         brands = set(brands)
 
         for brand in brands:
-            service.insert(brand)
+            logic.insert(brand)
             complete_brands.append(brand)
         
         return complete_brands
 
     def insert_products(self):
         """ The product data is inserted into the MySQL database. """
-        service = ProductService()
+        logic = ProductLogic()
         products = self.objects_factory.create_product_object_list()
         products = set(products)
 
         for product in products:
-            service.insert(product)
+            logic.insert(product)
 
     def insert_categories(self):
         """ The category data is inserted into the MySQL database. """
-        service = CategoryService()
+        logic = CategoryLogic()
         categories = self.objects_factory.create_category_object_list()
         categories = set(categories)
         
         for category in categories:
-            service.insert(category)
+            logic.insert(category)
 
     def insert_products_categories(self):
         """ The product_category data is inserted into the MySQL database. """
-        service = ProductCategoryService()
+        logic = ProductCategoryLogic()
         products_categories = self.objects_factory.create_product_category_object_list()
         products_categories = set(products_categories)
 
         for p_c in products_categories:
-            service.insert(p_c)
+            logic.insert(p_c)
 
     def insert_stores(self):
         """ The category data is inserted into the MySQL database. """
-        service = StoreService()
+        logic = StoreLogic()
         stores = self.objects_factory.create_store_object_list()
         stores = set(stores)
         for store in stores:
-            service.insert(store)
+            logic.insert(store)
 
     def insert_products_stores(self):
         """ The product_store data is inserted into the MySQL database. """
-        service = ProductStoreService()
+        logic = ProductStoreLogic()
         products_stores = self.objects_factory.create_product_store_object_list()
         products_stores = set(products_stores)
 
         for p_c in products_stores:
-            service.insert(p_c)
+            logic.insert(p_c)
 
     def populate_database(self):
         """ We populate the MySQL database """
