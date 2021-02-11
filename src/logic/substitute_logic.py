@@ -12,11 +12,7 @@ class SubstituteLogic:
     def __init__(self):
         """ Constructor """
         self.service = SubstituteService()
-        
+
     def insert(self, substitute):
         """ Insert substitute data in database """
         return self.service.insert(substitute)
-
-    def get_all(self):
-        """ Get all substitutes object """
-        return self.service.get_all()

@@ -1,12 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from src.view.brand_view import BrandView
-from src.view.category_view import CategoryView
 from src.view.menu_view import MenuView
-from src.view.product_view import ProductView
-from src.view.store_view import StoreView
-from src.view.substitute_view import SubstituteView
 
 class MainView:
     """
@@ -16,12 +11,7 @@ class MainView:
 
     def __init__(self):
         """ Constructor """
-        self.brand = BrandView()
-        self.category = CategoryView()
         self.menu = MenuView()
-        self.product = ProductView()
-        self.store = StoreView()
-        self.substitute = SubstituteView()
 
     def start_program(self):
         print("\nBienvenue sur le programme ''Substitution'' !\r")

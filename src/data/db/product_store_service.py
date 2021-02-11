@@ -22,7 +22,3 @@ class ProductStoreService:
 
         cursor.close()
         cnx.close()
-
-    def get_all(self):
-        """ Get all products_stores object from database """
-        pass

@@ -9,15 +9,14 @@ class Product:
         To manage Product object
     """
 
-    def __init__(self, code, product_name, nutriscore_grade, nova_group, product_url, brand_name=None, brand_id=None):
+    def __init__(self, code, product_name, brand, nutriscore_grade, nova_group, product_url):
         """ Constructor """
         self.id = code
         self.designation = product_name
-        self.brand_name = brand_name
+        self.brand = brand
         self.nutriscore = nutriscore_grade
         self.novascore = nova_group
         self.url = product_url
-        self.brand_id = brand_id
 
     def get_id(self):
         """ Get Product id """
@@ -27,9 +26,9 @@ class Product:
         """ Get Product designation """
         return self.designation
 
-    def get_brand_name(self):
-        """ Get Product brand_name """
-        return self.brand_name
+    def get_brand(self):
+        """ Get Product brand """
+        return self.brand
 
     def get_nutriscore(self):
         """ Get Product nutriscore """
@@ -42,7 +41,3 @@ class Product:
     def get_url(self):
         """ Get Product url """
         return self.url
-
-    def get_brand_id(self):
-        """ Get Product brand_id """
-        return self.brand_id

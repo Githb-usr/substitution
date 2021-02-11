@@ -22,12 +22,6 @@ class CategoryService:
         cursor.execute(query, (category.get_designation(),))
         cnx.commit()
 
-        query = ("SELECT id from categories")
-        cursor.execute(query)
-
-        for element in cursor:
-            category.id = element[0]
-
         cursor.close()
         cnx.close()
         
@@ -50,24 +44,6 @@ class CategoryService:
 
         return categories
     
-    def get_id_per_name(self, name):
-        """ Get category's id from category's name """
-        category_id = int()
-        connector = Connector()
-        cnx = connector.connection()
-        cursor = cnx.cursor()
-
-        query = ("SELECT id FROM categories WHERE designation = (%s)")
-        cursor.execute(query, (name,))
-
-        for element in cursor:
-            category_id = int(element[0])
-
-        cursor.close()
-        connector.close()
-
-        return category_id
-
     def get_categories_to_select(self):
         """ Get categories to select from database """
         categories = []

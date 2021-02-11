@@ -20,28 +20,28 @@ class MenuView:
     
     def display_column_menu(self):
         menu_str = "------\nMENU : \
-            \n- Remplacer un aliment (Taper M1) \
-            \n- Mes aliments substitués (Taper M2) \
-            \n- Quitter (Taper M3)\n------"
+            \n1 : Remplacer un aliment \
+            \n2 : Mes aliments substitués \
+            \n3 : Quitter\n------"
         
-        return print(menu_str)
+        print(menu_str)
     
     def select_menu(self):
         proceed = True
-        menus = ['M1', 'M2', 'M3']
+        menus = [1, 2, 3]
 
         while proceed:
             select_string = input("\nSelectionner un code du menu : ").upper()
 
-            if select_string not in menus:
+            if int(select_string) not in menus:
                 print("\nVous n'avez pas saisi le code d'un menu, veuillez recommencer s'il vous plait.\n")
                 self.utilites.display_line_menu()
             else:
-                if select_string == 'M1':
+                if int(select_string) == 1:
                     self.replace_product()
-                elif select_string == 'M2':
+                elif int(select_string) == 2:
                     self.see_substituted_products()
-                elif select_string == 'M3':
+                elif int(select_string) == 3:
                     self.quit_application()
                 
                 proceed = False
@@ -50,7 +50,8 @@ class MenuView:
         selected_category = self.category.select_a_category()
         selected_product = self.product.select_product(selected_category.get_id())
         show_substitutes = self.product.show_substitutes(selected_category.get_id(), selected_product)
-        select_substitute = self.product.select_substitute(selected_category.get_id(), selected_product)
+        selected_substitute = self.product.select_substitute(selected_category.get_id(), selected_product)
+        self.product.save_substitute(selected_product, selected_substitute)
 
     def see_substituted_products(self):
         pass

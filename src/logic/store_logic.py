@@ -12,11 +12,11 @@ class StoreLogic:
     def __init__(self):
         """ Constructor """
         self.service = StoreService()
+        
+    def insert(self, store):
+        """ Insert store data in database """
+        return self.service.insert(store)
 
     def get_all(self):
         """ Get all stores object """
-        return self.service.get_stores()
-        
-    def get_id_per_name(self, name):
-        """ Get store's id from name """
-        return self.service.get_id_per_name(name)
+        return self.service.get_all()

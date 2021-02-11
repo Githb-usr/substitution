@@ -20,32 +20,5 @@ class SubstituteService:
         cursor.execute(query, (substitute.initial_product_id, substitute.substitute_product_id))
         cnx.commit()
 
-        query = ("SELECT id from substitutes")
-        cursor.execute(query)
-
-        for sub_id in cursor:
-            substitute.id = sub_id[0]
-
         cursor.close()
         cnx.close()
-
-    def get_all(self):
-        """ Get all Substitute object from database """
-        substitutes = []
-
-        connector = Connector()
-        cnx = connector.connection()
-        cursor = cnx.cursor()
-
-        query = 'SELECT id, initial_product_id, substitute_product_id FROM substitutes'
-
-        cursor.execute(query)
-
-        for element in cursor:
-            substitute = Substitute(element[0], element[1], element[2])
-            substitutes.append(substitute)
-
-        cursor.close()
-        connector.close()
-
-        return substitutes

@@ -17,9 +17,9 @@ class DataCleaner:
         self.clean_brands = []
         self.clean_categories = []
         self.clean_stores = []
-        self.brand_of_prod = []
-        self.cats_of_prod = []
-        self.stores_of_prod = []
+        self.brand_of_products = []
+        self.cats_of_products = []
+        self.stores_of_products = []
 
     def create_products_dict_list(self):
         """
@@ -82,72 +82,21 @@ class DataCleaner:
         """
         for product in self.products_dict_list:
             product_clean_brand = self.clean_brands_field(product['brands'])
-            self.brand_of_prod.append((product['code'], product_clean_brand))
+            self.brand_of_products.append((product['code'], product_clean_brand))
             if product_clean_brand != '':
                 self.clean_brands.append(product_clean_brand)
             self.clean_brands = list(set(self.clean_brands))
             
             product_clean_categories = self.clean_fields(product['categories'])
-            self.cats_of_prod.append((product['code'], product_clean_categories))
+            self.cats_of_products.append((product['code'], product_clean_categories))
             for category in product_clean_categories:
                 if category != '':
                     self.clean_categories.append(category)
                 self.clean_categories = list(set(self.clean_categories))
             
             product_clean_stores = self.clean_fields(product['stores'])
-            self.stores_of_prod.append((product['code'], product_clean_stores))
+            self.stores_of_products.append((product['code'], product_clean_stores))
             for store in product_clean_stores:
                 if store != '':
                     self.clean_stores.append(store)
                 self.clean_stores = list(set(self.clean_stores))
-    
-    # def create_brands_of_products_list(self):
-    #     """
-    #         The list of brands to be included in the database is created (after cleaning)
-    #         from the product brands retrieved via the Open Food Facts API.
-    #         :return: A list of brands is obtained, without duplicates
-    #         :rtype: list()
-    #     """
-    #     brands_of_products_list = []
-
-    #     for brand in self.clean_brands:
-    #         if brand != '':
-    #             brands_of_products_list.append(brand)
-
-    #     brands_of_products_list = list(set(brands_of_products_list))
-
-    #     return brands_of_products_list
-
-    # def create_categories_of_products_list(self):
-    #     """
-    #         The list of categories to be included in the database is created (after cleaning)
-    #         from the product categories retrieved via the Open Food Facts API.
-    #         :return: A list of categories is obtained, without duplicates
-    #         :rtype: list()
-    #     """
-    #     categories_of_products_list = []
-
-    #     for category in self.clean_categories:
-    #         if category != '':
-    #             categories_of_products_list.append(category)
-
-    #     # categories_of_products_list = list(set(categories_of_products_list))
-
-    #     return categories_of_products_list
-
-    # def create_stores_of_products_list(self):
-    #     """
-    #         The list of stores to be included in the database is created (after cleaning)
-    #         from the product stores retrieved via the Open Food Facts API.
-    #         :return: A list of stores is obtained, without duplicates
-    #         :rtype: list()
-    #     """
-    #     stores_of_products_list = []
-
-    #     for store in self.clean_stores:
-    #         if store != '':
-    #             stores_of_products_list.append(store)
-
-    #     stores_of_products_list = list(set(stores_of_products_list))
-
-    #     return stores_of_products_list

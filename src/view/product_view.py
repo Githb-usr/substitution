@@ -22,7 +22,7 @@ class ProductView:
         self.codes_sub_of_selected_product = []
         
     def show_products_of_selected_category(self, category_id):
-        products = self.logic.get_all_products_of_category(category_id)
+        products = self.product_logic.get_all_products_of_category(category_id)
         i = 1
         
         print('\n')
@@ -74,7 +74,7 @@ class ProductView:
         return selected_product
 
     def show_substitutes(self, category_id, selected_product):
-        substitutes_list = self.logic.get_substitutes_list(category_id, selected_product)
+        substitutes_list = self.product_logic.get_substitutes_list(category_id, selected_product)
         i = 1
         
         if len(substitutes_list) > 0:
@@ -138,7 +138,5 @@ class ProductView:
         return selected_substitute
     
     def save_substitute(self, selected_product, selected_substitute):
-        substitute = Substitute(selected_product[1], selected_substitute[1])
+        substitute = Substitute(selected_product.get_id(), selected_substitute.get_id())
         self.substitute_logic.insert(substitute)
-        
-        

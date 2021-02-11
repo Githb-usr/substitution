@@ -8,7 +8,7 @@ class UtilitiesView:
     """
 
     def display_line_menu(self):
-        menu_str = '------\nMENU : Remplacer un aliment (M1) | Aliments substitués (M2) | Quitter (M3)\n------'
+        menu_str = '------\nMENU : 1 : Remplacer un aliment | 2 : Aliments substitués | 3 : Quitter\n------'
 
         return print(menu_str)
 

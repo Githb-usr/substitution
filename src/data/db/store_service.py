@@ -20,12 +20,6 @@ class StoreService:
         cursor.execute(query, (store.designation,))
         cnx.commit()
 
-        query = ("SELECT id from stores")
-        cursor.execute(query)
-
-        for element in cursor:
-            store.id = element[0]
-
         cursor.close()
         cnx.close()
 
@@ -47,21 +41,3 @@ class StoreService:
         connector.close()
 
         return stores
-    
-    def get_id_per_name(self, name):
-        """ Get store's id from store's name """
-        store_id = int()
-        connector = Connector()
-        cnx = connector.connection()
-        cursor = cnx.cursor()
-
-        query = ("SELECT id FROM stores WHERE designation = (%s)")
-        cursor.execute(query, (name,))
-
-        for element in cursor:
-            store_id = int(element[0])
-
-        cursor.close()
-        connector.close()
-
-        return store_id

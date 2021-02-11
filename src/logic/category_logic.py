@@ -20,10 +20,6 @@ class CategoryLogic:
     def get_all(self):
         """ Get all categories object """
         return self.service.get_all()
-        
-    def get_id_per_name(self, name):
-        """ Get category's id from name """
-        return self.service.get_id_per_name(name)
     
     def get_categories_to_select(self):
         """ Get categories to select """

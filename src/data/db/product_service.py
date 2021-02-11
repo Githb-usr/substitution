@@ -19,10 +19,10 @@ class ProductService:
         query = ('''INSERT INTO products(
                                     id,
                                     designation,
+                                    brand,
                                     nutriscore,
                                     novascore,
-                                    url_,
-                                    brand_id
+                                    url_
                                     )
                     VALUES(%s, %s, %s, %s, %s, %s)'''
                 )
@@ -30,10 +30,10 @@ class ProductService:
         cursor.execute(query, (
                         product.id,
                         product.designation,
+                        product.brand,
                         product.nutriscore,
                         product.novascore,
-                        product.url,
-                        product.brand_id
+                        product.url
                         )
                        )
         cnx.commit()
@@ -50,9 +50,8 @@ class ProductService:
         cursor = cnx.cursor()
 
         query = (
-                "SELECT p.id, p.designation, b.designation, p.nutriscore, p.novascore, p.url_ \
-                FROM (products p, brands b) \
-                WHERE (p.brand_id = b.id)"
+                "SELECT id, designation, brand, nutriscore, novascore, url_ \
+                FROM products p"
             )
         cursor.execute(query)
 
@@ -60,7 +59,7 @@ class ProductService:
             product = Product(
                 code=element[0],
                 product_name=element[1],
-                brand_name=element[2],
+                brande=element[2],
                 nutriscore_grade=element[3],
                 nova_group=element[4], 
                 product_url=element[5]
@@ -80,12 +79,11 @@ class ProductService:
         cnx = connector.connection()
         cursor = cnx.cursor()
 
-        query = ("SELECT p.id, p.designation, b.designation, p.nutriscore, p.novascore, p.url_ \
-                FROM (products p, brands b) \
+        query = ("SELECT id, designation, brand, nutriscore, novascore, url_ \
+                FROM products p \
                 INNER JOIN products_categories pc \
                 ON pc.product_id = p.id \
-                WHERE p.brand_id = b.id \
-                AND pc.category_id = (%s) \
+                WHERE pc.category_id = (%s) \
                 ORDER BY p.designation ASC"
         )
         cursor.execute(query, (category_id,))
@@ -94,7 +92,7 @@ class ProductService:
             product = Product(
                 code=element[0],
                 product_name=element[1],
-                brand_name=element[2],
+                brand=element[2],
                 nutriscore_grade=element[3],
                 nova_group=element[4], 
                 product_url=element[5]
@@ -114,12 +112,11 @@ class ProductService:
         cnx = connector.connection()
         cursor = cnx.cursor()
         
-        query = ("SELECT DISTINCT p.id, p.designation, b.designation, p.nutriscore, p.novascore, p.url_ \
-                FROM (products p, brands b) \
+        query = ("SELECT DISTINCT id, designation, brand, nutriscore, novascore, url_ \
+                FROM products p \
                 INNER JOIN products_categories pc \
                 ON pc.product_id = p.id \
-                WHERE p.brand_id = b.id \
-                AND pc.category_id = (%s) \
+                WHERE pc.category_id = (%s) \
                 AND p.nutriscore < (%s) \
                 AND p.novascore <= (%s) \
                 ORDER BY p.nutriscore DESC, p.novascore DESC"
@@ -130,7 +127,7 @@ class ProductService:
             product = Product(
                 code=element[0],
                 product_name=element[1],
-                brand_name=element[2],
+                brand=element[2],
                 nutriscore_grade=element[3],
                 nova_group=element[4], 
                 product_url=element[5]
@@ -141,3 +138,34 @@ class ProductService:
         connector.close()
 
         return products
+    
+    def get_all_susbtitutes(self):
+        """ Get all susbtitutes object from database """
+        susbtitutes = []
+
+        connector = Connector()
+        cnx = connector.connection()
+        cursor = cnx.cursor()
+
+        # query = (
+        #         "SELECT id, designation, brand, nutriscore, novascore, url_ \
+        #         FROM products p \
+        #         WHERE (p.brand_id = b.id)"
+        #     )
+        # cursor.execute(query)
+
+        # for element in cursor:
+        #     susbtitute = Product(
+        #         code=element[0],
+        #         product_name=element[1],
+        #         brand=element[2],
+        #         nutriscore_grade=element[3],
+        #         nova_group=element[4], 
+        #         product_url=element[5]
+        #         )
+        #     susbtitutes.append(susbtitute)
+
+        cursor.close()
+        connector.close()
+
+        return susbtitutes
