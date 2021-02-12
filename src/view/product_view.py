@@ -5,6 +5,7 @@ from src.data.model.product import Product
 from src.data.model.substitute import Substitute
 from src.logic.product_logic import ProductLogic
 from src.logic.substitute_logic import SubstituteLogic
+from src.view import menu_view
 from src.view.utilities_view import UtilitiesView
 
 class ProductView:
@@ -17,12 +18,11 @@ class ProductView:
         """ Constructor """
         self.product_logic = ProductLogic()
         self.substitute_logic = SubstituteLogic()
-        self.utilites = UtilitiesView()
         self.codes_prod__of_selected_category = []
         self.codes_sub_of_selected_product = []
         
-    def show_products_of_selected_category(self, category_id):
-        products = self.product_logic.get_all_products_of_category(category_id)
+    def show_products_of_selected_category(self, selected_category):
+        products = self.product_logic.get_all_products_of_category(selected_category.get_id())
         i = 1
         
         print('\n')
@@ -32,29 +32,34 @@ class ProductView:
         for product in products:
             self.codes_prod__of_selected_category.append((i, product.get_id()))
             print(
-                f'{i!s:>2} - {product.get_designation()} ({product.get_brand_name()} / {product.get_nutriscore()} - {product.get_novascore()})'
+                f'{i!s:>2} - {product.get_designation()} ___ {product.get_brand()} / {product.get_nutriscore()} - {product.get_novascore()}'
                 )
-            print(product.get_url()+"\n")
+            # print(product.get_url()+"\n")
             i = i + 1
 
         print('--------------------------------------')
         print('N° - Nom (Nutriscore - Novascore)')
         print('Lien vers la fiche complète du produit\n')
         
+        print("\nMerci !")
+        print('Vous avez choisi la catégorie "{}".\r'.format(selected_category.get_designation()))
+        
         return products
     
-    def select_product(self, category_id):
+    def select_product(self, selected_category):
         selected_product = ()
         proceed = True
 
-        products_of_selected_category_list = self.show_products_of_selected_category(category_id)
+        products_of_selected_category_list = self.show_products_of_selected_category(selected_category)
         number_of_products = len(products_of_selected_category_list)
 
         while proceed:
-            self.utilites.display_line_menu()
-            select_number = input("\nSelectionner un produit en tapant son numéro (ou bien un code du menu) : ")
+            UtilitiesView.display_line_menu()
+            select_number = input("\nSelectionner un produit en tapant son numéro (ou bien taper un code du menu) : ")
 
-            if select_number.isnumeric() == False or int(select_number) not in range(1, number_of_products + 1):
+            if select_number in ('A', 'B', 'C'):
+                menu_view.MenuView.action_from_choice(select_number)
+            elif select_number.isnumeric() == False or int(select_number) not in range(1, number_of_products + 1):
                 print("\nVous n'avez pas saisi le numéro d'un des produits proposées, veuillez recommencer s'il vous plait.\n")
             else:
                 for code_prod in self.codes_prod__of_selected_category:
@@ -66,8 +71,6 @@ class ProductView:
 
                 print("\nMerci !")
                 print('Vous avez choisi le produit "{}" (produit n° {}).'.format(selected_product.get_designation(), select_number))
-
-                self.utilites.press_enter()
 
                 proceed = False
 
@@ -84,9 +87,9 @@ class ProductView:
             for substitute in substitutes_list:
                 self.codes_sub_of_selected_product.append((i, substitute.get_id()))
                 print(
-                    f'{i!s:>2} - {substitute.get_designation()} ({substitute.get_brand_name()} / {substitute.get_nutriscore()} - {substitute.get_novascore()})'
+                    f'{i!s:>2} - {substitute.get_designation()} ___ {substitute.get_brand()} / {substitute.get_nutriscore()} - {substitute.get_novascore()}'
                     )
-                print(substitute.get_url()+"\n")
+                # print(substitute.get_url()+"\n")
                 i = i + 1
 
             print('--------------------------------------')
@@ -94,14 +97,14 @@ class ProductView:
             print('Lien vers la fiche complète du produit\n')
             print("Vous avez choisi le produit suivant : ")
             print(
-                f'==> {selected_product.get_designation()} ({selected_product.get_brand_name()} / {selected_product.get_nutriscore()} - {selected_product.get_novascore()})'
+                f'==> {selected_product.get_designation()} ___ {selected_product.get_brand()} / {selected_product.get_nutriscore()} - {selected_product.get_novascore()}'
                 )
             print('\nVous avez, ci-dessus, une liste de produits de meilleure qualité nutritionnelle que celui que vous avez choisi.')
             print('Ces produits sont classés par nutriscores puis novascore décroissants. Les produits les plus intéressants sont donc les derniers de la liste.\n')
         else:
             print("Vous avez choisi le produit suivant : ")
             print(
-                f'==> {selected_product.get_designation()} ({selected_product.get_brand_name()} / {selected_product.get_nutriscore()} - {selected_product.get_novascore()})'
+                f'==> {selected_product.get_designation()} ___ {selected_product.get_brand()} / {selected_product.get_nutriscore()} - {selected_product.get_novascore()}'
                 )
             print("\nVous avez déjà choisi le meilleur produit dans cette catégorie, nous n'avons pas d'autre produit à vous proposer !")
         
@@ -115,10 +118,12 @@ class ProductView:
         number_of_products = len(substitutes_list)
 
         while proceed:
-            self.utilites.display_line_menu()
+            UtilitiesView.display_line_menu()
             select_number = input("\nSelectionner un produit de substitution tapant son numéro (ou bien tapez un code du menu) : ")
 
-            if select_number.isnumeric() == False or int(select_number) not in range(1, number_of_products + 1):
+            if select_number in ('A', 'B', 'C'):
+                menu_view.MenuView.action_from_choice(select_number)
+            elif select_number.isnumeric() == False or int(select_number) not in range(1, number_of_products + 1):
                 print("\nVous n'avez pas saisi le numéro d'un des produits proposées, veuillez recommencer s'il vous plait.\n")
             else:
                 for code_sub in self.codes_sub_of_selected_product:
@@ -131,8 +136,6 @@ class ProductView:
                 print("\nMerci !")
                 print('Vous avez choisi le produit "{}" (produit n° {}).'.format(selected_product.get_designation(), select_number))
 
-                self.utilites.press_enter()
-
                 proceed = False
 
         return selected_substitute
@@ -140,3 +143,6 @@ class ProductView:
     def save_substitute(self, selected_product, selected_substitute):
         substitute = Substitute(selected_product.get_id(), selected_substitute.get_id())
         self.substitute_logic.insert(substitute)
+        print("\nCe produit de substitution vient d'être sauvegardé, vous pourrez le retrouver, "
+              "avec tous les autres produits enregistrés, en choisissant le menu 'B' "
+              "(Mes aliments de remplacement)")
