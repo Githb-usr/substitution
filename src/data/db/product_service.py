@@ -112,16 +112,25 @@ class ProductService:
         cnx = connector.connection()
         cursor = cnx.cursor()
         
-        query = ("SELECT DISTINCT id, designation, brand, nutriscore, novascore, url_ \
-                FROM products p \
-                INNER JOIN products_categories pc \
+        query = ("SELECT DISTINCT p.id, p.designation, p.brand, p.nutriscore, p.novascore, p.url_ \
+                FROM products AS p \
+                INNER JOIN products_categories AS pc \
                 ON pc.product_id = p.id \
-                WHERE pc.category_id = (%s) \
+                WHERE ( \
+                    SELECT COUNT(pc.category_id) \
+		            FROM products_categories AS pc \
+		            WHERE pc.product_id = p.id \
+		            AND pc.category_id IN ( \
+                                        SELECT pc.category_id  \
+								        FROM products_categories AS pc \
+								        WHERE pc.product_id = (%s) \
+                                        ) \
+                    ) > 4 \
                 AND p.nutriscore < (%s) \
                 AND p.novascore <= (%s) \
                 ORDER BY p.nutriscore DESC, p.novascore DESC"
         )
-        cursor.execute(query, (category_id, selected_product.get_nutriscore(),selected_product.get_novascore()))
+        cursor.execute(query, (selected_product.get_id(), selected_product.get_nutriscore(),selected_product.get_novascore()))
 
         for element in cursor:
             product = Product(

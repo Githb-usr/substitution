@@ -27,18 +27,18 @@ class ProductView:
         i = 1
         
         print('\n')
-        print('N° - Nom (Nutriscore - Novascore)')
-        print('--------------------------------------\n')
+        print('N° - Nom - Nutriscore - Novascore - Marque')
+        print('-------------------------------------------------------------------------------------------------------------------------------')
         for product in products:
             self.codes_prod__of_selected_category.append((i, product.get_id()))
             print(
-                f'{i!s:>2} - {product.get_designation()} ___ {product.get_brand()} / {product.get_nutriscore()} - {product.get_novascore()}'
+                f'| {i!s:>2} - {product.get_designation()[0:80]!s:<82} | {product.get_nutriscore()} | {product.get_novascore()} | {product.get_brand()!s:<25} |'
                 )
+            print('-------------------------------------------------------------------------------------------------------------------------------')
 
             i = i + 1
 
-        print('--------------------------------------')
-        print('N° - Nom (Nutriscore - Novascore)\n')
+        print('N° - Nom - Nutriscore - Novascore - Marque\n')
         
         print("\nMerci !")
         print('Vous avez choisi la catégorie "{}".\r'.format(selected_category.get_designation()))
@@ -69,41 +69,41 @@ class ProductView:
                                 break
 
                 print("\nMerci !")
-                print('Vous avez choisi le produit "{}" (produit n° {}).'.format(selected_product.get_designation(), select_number))
+                print("Vous avez choisi le produit suivant : ")
+                print("{} (produit n° {}).".format(selected_product.get_designation(), select_number))
 
                 proceed = False
 
         return selected_product
 
     def show_potential_substitutes(self, category_id, selected_product):
-        substitutes_list = self.product_logic.get_substitutes_list(category_id, selected_product)
+        substitutes_list = self.product_logic.get_potential_substitutes_list(category_id, selected_product)
         i = 1
         
         if len(substitutes_list) > 0:
-            print('\nN° - Nom (Nutriscore - Novascore)')
-            print('Lien vers la fiche complète du produit')
-            print('--------------------------------------\n')
+            print('\nN° - Nom - Nutriscore - Novascore - Marque')
+            print('-------------------------------------------------------------------------------------------------------------------------------')
             for substitute in substitutes_list:
                 self.codes_sub_of_selected_product.append((i, substitute.get_id()))
                 print(
-                    f'{i!s:>2} - {substitute.get_designation()} ___ {substitute.get_brand()} / {substitute.get_nutriscore()} - {substitute.get_novascore()}'
+                    f'| {i!s:>2} - {substitute.get_designation()[0:80]!s:<82} | {substitute.get_nutriscore()} | {substitute.get_novascore()} | {substitute.get_brand()!s:<25} |'
                     )
-                # print(substitute.get_url()+"\n")
+                print('-------------------------------------------------------------------------------------------------------------------------------')
                 i = i + 1
 
-            print('--------------------------------------')
-            print('N° - Nom (Nutriscore - Novascore)')
-            print('Lien vers la fiche complète du produit\n')
+            print('N° - Nom - Nutriscore - Novascore - Marque\n')
+            print("\nMerci !")
             print("Vous avez choisi le produit suivant : ")
             print(
-                f'==> {selected_product.get_designation()} ___ {selected_product.get_brand()} / {selected_product.get_nutriscore()} - {selected_product.get_novascore()}'
+                f'==> {selected_product.get_designation()} - {selected_product.get_nutriscore()} - {selected_product.get_novascore()} - {selected_product.get_brand()}'
                 )
             print('\nVous avez, ci-dessus, une liste de produits de meilleure qualité nutritionnelle que celui que vous avez choisi.')
             print('Ces produits sont classés par nutriscores puis novascore décroissants. Les produits les plus intéressants sont donc les derniers de la liste.\n')
         else:
+            print("\nMerci !")
             print("Vous avez choisi le produit suivant : ")
             print(
-                f'==> {selected_product.get_designation()} ___ {selected_product.get_brand()} / {selected_product.get_nutriscore()} - {selected_product.get_novascore()}'
+                f'==> {selected_product.get_designation()} - {selected_product.get_nutriscore()} - {selected_product.get_novascore()} - {selected_product.get_brand()}'
                 )
             print("\nVous avez déjà choisi le meilleur produit dans cette catégorie, nous n'avons pas d'autre produit à vous proposer !")
         
