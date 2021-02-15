@@ -16,3 +16,7 @@ class SubstituteLogic:
     def insert(self, substitute):
         """ Insert substitute data in database """
         return self.service.insert(substitute)
+    
+    def get_all(self):
+        """ Get all substitutes objects """
+        return self.service.get_all()

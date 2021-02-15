@@ -13,3 +13,4 @@ FIELDS_OF_PRODUCT = 'code,product_name,brands,categories,nutriscore_grade,nova_g
 FIELDS_OF_PRODUCT_LIST = ('code', 'product_name', 'brands', 'categories', 'nutriscore_grade', 'nova_group', 'url', 'stores')
 MINIMUM_NUMBER_OF_PRODUCTS_PER_CATEGORY = 25
 MAXIMUM_NUMBER_OF_PRODUCTS_PER_CATEGORY = 75
+MENU_LETTERS = ['A', 'B', 'C']

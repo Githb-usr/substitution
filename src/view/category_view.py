@@ -4,7 +4,8 @@
 from src.data.model.category import Category
 from src.logic.category_logic import CategoryLogic
 from src.view import menu_view
-from src.view.utilities_view import UtilitiesView
+
+from config.settings import MENU_LETTERS
 
 class CategoryView:
     """
@@ -15,7 +16,6 @@ class CategoryView:
     def __init__(self):
         """ Constructor """
         self.logic = CategoryLogic()
-        # self.menu = MenuView()
         self.codes = []
 
     def show_categories_to_select(self):
@@ -65,11 +65,11 @@ class CategoryView:
         number_of_categories = len(categories)
 
         while proceed:
-            UtilitiesView.display_line_menu()
+            menu_view.MenuView.display_line_menu()
             selected_menu = input("\nSelectionner une catégorie en tapant son numéro "
                                     "(ou bien taper une lettre du menu) : ")
 
-            if selected_menu.upper() in ['A', 'B', 'C']:
+            if selected_menu.upper() in MENU_LETTERS:
                 menu_view.MenuView.action_from_choice(selected_menu.upper())
                 proceed = False
             elif selected_menu.isnumeric() == False or int(selected_menu) not in range(1, number_of_categories + 1):

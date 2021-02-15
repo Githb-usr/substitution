@@ -104,7 +104,7 @@ class ProductService:
 
         return products
     
-    def get_substitutes_list(self, category_id, selected_product):
+    def get_potential_substitutes_list(self, category_id, selected_product):
         """ We are looking for a better product than the one selected from database """
         products = []
 
@@ -138,34 +138,3 @@ class ProductService:
         connector.close()
 
         return products
-    
-    def get_all_susbtitutes(self):
-        """ Get all susbtitutes object from database """
-        susbtitutes = []
-
-        connector = Connector()
-        cnx = connector.connection()
-        cursor = cnx.cursor()
-
-        # query = (
-        #         "SELECT id, designation, brand, nutriscore, novascore, url_ \
-        #         FROM products p \
-        #         WHERE (p.brand_id = b.id)"
-        #     )
-        # cursor.execute(query)
-
-        # for element in cursor:
-        #     susbtitute = Product(
-        #         code=element[0],
-        #         product_name=element[1],
-        #         brand=element[2],
-        #         nutriscore_grade=element[3],
-        #         nova_group=element[4], 
-        #         product_url=element[5]
-        #         )
-        #     susbtitutes.append(susbtitute)
-
-        cursor.close()
-        connector.close()
-
-        return susbtitutes

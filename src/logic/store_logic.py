@@ -18,5 +18,5 @@ class StoreLogic:
         return self.service.insert(store)
 
     def get_all(self):
-        """ Get all stores object """
+        """ Get all stores objects """
         return self.service.get_all()
