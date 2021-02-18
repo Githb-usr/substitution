@@ -3,6 +3,7 @@
 
 from src.data.api.objects_factory import ObjectsFactory
 from src.logic.category_logic import CategoryLogic
+from src.logic.database_logic import DatabaseLogic
 from src.logic.product_logic import ProductLogic
 from src.logic.product_category_logic import ProductCategoryLogic
 from src.logic.product_store_logic import ProductStoreLogic
@@ -13,6 +14,9 @@ class Helpers:
         Helpers class
         To manage the populating of the MySQL database
     """
+    def empty_database(self):
+        logic = DatabaseLogic()
+        logic.empty_database()
 
     def __init__(self):
         """ Constructor """
@@ -22,12 +26,15 @@ class Helpers:
         """ The product data is inserted into the MySQL database. """
         logic = ProductLogic()
         
-        # We create the list of product objects
-        products = self.objects_factory.create_product_object_list()
-        products = set(products)
+        try:
+            # We create the list of product objects
+            products = self.objects_factory.create_product_object_list()
+            products = set(products)
 
-        for product in products:
-            logic.insert(product)
+            for product in products:
+                logic.insert(product)
+        except:
+            print('Il y a eu un problème lors de la récupération des données, veuillez rééssayer')
 
     def insert_categories(self):
         """ The category data is inserted into the MySQL database. """

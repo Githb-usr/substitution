@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import mysql.connector
+from mysql.connector import Error
 
 class Connector:
     """
@@ -15,14 +16,15 @@ class Connector:
             To open the connection to the MySQL database
             :return: the connection object
         """
-        self.cnx = mysql.connector.connect(
-            user='pbadmin', password='pass38',
-            host='127.0.0.1',
-            database='substitution'
-            )
+        try:
+            self.cnx = mysql.connector.connect(option_files='mysql.conf')
 
-        return self.cnx
+            return self.cnx
+
+        except Error as e:
+            print("La connexion à la base de données a échoué", e)    
 
     def close(self):
         """ To close the connection to the MySQL database """
         self.cnx.close()
+  

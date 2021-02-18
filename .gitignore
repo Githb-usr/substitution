@@ -7,6 +7,7 @@ __pycache__/
 envp5/
 .vscode/
 .env
+mysql.conf
 
 # Divers
 pip

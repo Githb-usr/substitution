@@ -8,7 +8,7 @@ class ProductService:
     """
         ProductService class
         To manage the relationship between the Product object and the MySQL database
-    """
+    """        
 
     def insert(self, product):
         """ Insert product data in database """
@@ -50,8 +50,8 @@ class ProductService:
         cursor = cnx.cursor()
 
         query = (
-                "SELECT id, designation, brand, nutriscore, novascore, url_ \
-                FROM products p"
+                '''SELECT id, designation, brand, nutriscore, novascore, url_
+                FROM products p'''
             )
         cursor.execute(query)
 
@@ -79,12 +79,12 @@ class ProductService:
         cnx = connector.connection()
         cursor = cnx.cursor()
 
-        query = ("SELECT id, designation, brand, nutriscore, novascore, url_ \
-                FROM products p \
-                INNER JOIN products_categories pc \
-                ON pc.product_id = p.id \
-                WHERE pc.category_id = (%s) \
-                ORDER BY p.designation ASC"
+        query = ('''SELECT id, designation, brand, nutriscore, novascore, url_
+                FROM products p
+                INNER JOIN products_categories pc
+                ON pc.product_id = p.id
+                WHERE pc.category_id = (%s)
+                ORDER BY p.designation ASC'''
         )
         cursor.execute(query, (category_id,))
 
@@ -112,23 +112,23 @@ class ProductService:
         cnx = connector.connection()
         cursor = cnx.cursor()
         
-        query = ("SELECT DISTINCT p.id, p.designation, p.brand, p.nutriscore, p.novascore, p.url_ \
-                FROM products AS p \
-                INNER JOIN products_categories AS pc \
-                ON pc.product_id = p.id \
-                WHERE ( \
-                    SELECT COUNT(pc.category_id) \
-		            FROM products_categories AS pc \
-		            WHERE pc.product_id = p.id \
-		            AND pc.category_id IN ( \
-                                        SELECT pc.category_id  \
-								        FROM products_categories AS pc \
-								        WHERE pc.product_id = (%s) \
-                                        ) \
-                    ) > 4 \
-                AND p.nutriscore < (%s) \
-                AND p.novascore <= (%s) \
-                ORDER BY p.nutriscore DESC, p.novascore DESC"
+        query = ('''SELECT DISTINCT p.id, p.designation, p.brand, p.nutriscore, p.novascore, p.url_
+                FROM products AS p
+                INNER JOIN products_categories AS pc
+                ON pc.product_id = p.id
+                WHERE (
+                    SELECT COUNT(pc.category_id)
+                    FROM products_categories AS pc
+                    WHERE pc.product_id = p.id
+                    AND pc.category_id IN (
+                                        SELECT pc.category_id
+                                        FROM products_categories AS pc
+                                        WHERE pc.product_id = (%s)
+                                        )
+                    ) > 2
+                AND p.nutriscore < (%s)
+                AND p.novascore <= (%s)
+                ORDER BY p.nutriscore DESC, p.novascore DESC'''
         )
         cursor.execute(query, (selected_product.get_id(), selected_product.get_nutriscore(),selected_product.get_novascore()))
 

@@ -23,27 +23,32 @@ class ProductView:
         self.codes_sub_of_selected_product = []
         
     def show_products_of_selected_category(self, selected_category):
-        products = self.product_logic.get_all_products_of_category(selected_category.get_id())
-        i = 1
+        try:
+            products = self.product_logic.get_all_products_of_category(selected_category.get_id())
+            
+            i = 1
         
-        print('\n')
-        print('N° - Nom - Nutriscore - Novascore - Marque')
-        print('-------------------------------------------------------------------------------------------------------------------------------')
-        for product in products:
-            self.codes_prod__of_selected_category.append((i, product.get_id()))
-            print(
-                f'| {i!s:>2} - {product.get_designation()[0:80]!s:<82} | {product.get_nutriscore()} | {product.get_novascore()} | {product.get_brand()!s:<25} |'
-                )
+            print('\n')
+            print('N° - Nom - Nutriscore - Novascore - Marque')
             print('-------------------------------------------------------------------------------------------------------------------------------')
+            for product in products:
+                self.codes_prod__of_selected_category.append((i, product.get_id()))
+                print(
+                    f'| {i!s:>2} - {product.get_designation()[0:80]!s:<82} | {product.get_nutriscore()} | {product.get_novascore()} | {product.get_brand()!s:<25} |'
+                    )
+                print('-------------------------------------------------------------------------------------------------------------------------------')
 
-            i = i + 1
+                i = i + 1
 
-        print('N° - Nom - Nutriscore - Novascore - Marque\n')
-        
-        print("\nMerci !")
-        print('Vous avez choisi la catégorie "{}".\r'.format(selected_category.get_designation()))
-        
-        return products
+            print('N° - Nom - Nutriscore - Novascore - Marque\n')
+            
+            print("\nMerci !")
+            print('Vous avez choisi la catégorie "{}".\r'.format(selected_category.get_designation()))
+            
+            return products
+
+        except:
+            print('Il y a eu un problème avec la base de données.')
     
     def select_product(self, selected_category):
         selected_product = ()
@@ -69,8 +74,8 @@ class ProductView:
                                 break
 
                 print("\nMerci !")
-                print("Vous avez choisi le produit suivant : ")
-                print("{} (produit n° {}).".format(selected_product.get_designation(), select_number))
+                print("Vous avez choisi de trouver un substitut au produit suivant : ")
+                print("==> {} (produit n° {}).".format(selected_product.get_designation(), select_number))
 
                 proceed = False
 

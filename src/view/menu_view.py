@@ -5,6 +5,7 @@ import sys
 from src.view import category_view
 from src.view import product_view
 from src.view import substitute_view
+from src.data.db.helpers import Helpers
 
 from config.settings import MENU_LETTERS
 
@@ -19,15 +20,16 @@ class MenuView:
         menu_str = "--------------------------------\nMENU : \
             \nA : Remplacer un aliment \
             \nB : Mes aliments de remplacement \
-            \nC : Quitter\n--------------------------------"
+            \nC : Réinitialiser la base de données \
+            \nD : Quitter\n--------------------------------"
 
         print(menu_str)
         
     @staticmethod
     def display_line_menu():
-        menu_str = '-------------------------------------------------------------------------------- \
-            \nMENU : A : Remplacer un aliment | B : Mes aliments de remplacement | C : Quitter \
-            \n--------------------------------------------------------------------------------'
+        menu_str = '---------------------------------------------------------------------------------------------------- \
+            \nMENU : A : Remplacer un aliment | B : Mes aliments de remplacement | C : Réinitialiser la base de données | D : Quitter \
+            \n----------------------------------------------------------------------------------------------------'
 
         return print(menu_str)
 
@@ -52,6 +54,8 @@ class MenuView:
         elif selected_menu == 'B':
             MenuView.see_substituted_products()
         elif selected_menu == 'C':
+            MenuView.reset_database()
+        elif selected_menu == 'D':
             MenuView.quit_application()
 
     @staticmethod
@@ -68,7 +72,15 @@ class MenuView:
     def see_substituted_products():
         substitute = substitute_view.SubstituteView()
         substitute.show_all_substitutes()
-
+        
+    @staticmethod
+    def reset_database():
+        reset = Helpers()
+        print("\nLa base de données de l'application va être réinitialisée. "
+              "Cela va prendre quelques minutes, merci de bien vouloir patienter.\n")
+        reset.empty_database()
+        reset.populate_database()
+        
     @staticmethod
     def quit_application():
         print("\nLe programme \"Substitution\" va être fermé. Merci de l'avoir utilisé, et à bientôt !\n")
