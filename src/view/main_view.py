@@ -8,7 +8,6 @@ class MainView:
         MainView class
         To manage the application interface
     """
-
     def __init__(self):
         """ Constructor """
         self.menu = MenuView()
@@ -16,5 +15,4 @@ class MainView:
     def start_program(self):
         print("\nBienvenue sur le programme ''Substitution'' !\r")
         print("Ce programme vous permet de trouver des aliments de substitution de meilleure qualité et meilleurs pour votre santé.\n")
-        self.menu.display_column_menu()
-        self.menu.select_menu()
+        self.menu.display_menu()

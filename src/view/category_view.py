@@ -5,8 +5,6 @@ from src.data.model.category import Category
 from src.logic.category_logic import CategoryLogic
 from src.view import menu_view
 
-from config.settings import MENU_LETTERS
-
 class CategoryView:
     """
         CategoryView class
@@ -15,6 +13,7 @@ class CategoryView:
 
     def __init__(self):
         """ Constructor """
+        self.menu = menu_view.MenuView()
         self.logic = CategoryLogic()
         self.codes = []
 
@@ -65,13 +64,11 @@ class CategoryView:
         number_of_categories = len(categories)
 
         while proceed:
-            menu_view.MenuView.display_line_menu()
-            selected_menu = input("\nSelectionner une catégorie en tapant son numéro "
-                                    "(ou bien taper une lettre du menu) : ")
-
-            if selected_menu.upper() in MENU_LETTERS:
-                menu_view.MenuView.action_from_choice(selected_menu.upper())
+            selected_menu = input("\nSelectionnez une catégorie en tapant son numéro "
+                                    "(ou bien tapez 'M' pour revenir au menu) puis validez avec \"Entrée\" : ")
+            if selected_menu.upper() == 'M':
                 proceed = False
+                self.menu.display_menu()
             elif selected_menu.isnumeric() == False or int(selected_menu) not in range(1, number_of_categories + 1):
                 print("Vous n'avez pas saisi le numéro d'une des catégories proposées, "
                       "veuillez recommencer s'il vous plait.\n")

@@ -7,8 +7,6 @@ from src.logic.product_logic import ProductLogic
 from src.logic.substitute_logic import SubstituteLogic
 from src.view import menu_view
 
-from config.settings import MENU_LETTERS
-
 class ProductView:
     """
         ProductView class
@@ -17,6 +15,7 @@ class ProductView:
     
     def __init__(self):
         """ Constructor """
+        self.menu = menu_view.MenuView()
         self.product_logic = ProductLogic()
         self.substitute_logic = SubstituteLogic()
         self.codes_prod__of_selected_category = []
@@ -48,34 +47,33 @@ class ProductView:
             return products
 
         except:
-            print('Il y a eu un problème avec la base de données.')
+            print("Il y a eu un problème d'accès à la base de données. "
+                  "Nous n'avons pas pu afficher les produits de la catégorie demandée.")
+            self.menu.display_menu()
     
     def select_product(self, selected_category):
-        selected_product = ()
+        selected_product = None
         proceed = True
 
         products_of_selected_category_list = self.show_products_of_selected_category(selected_category)
         number_of_products = len(products_of_selected_category_list)
 
         while proceed:
-            menu_view.MenuView.display_line_menu()
-            select_number = input("\nSélectionner un produit en tapant son numéro (ou bien taper un code du menu) : ")
+            selected_number = input("\nSélectionnez un produit en tapant son numéro "
+                                    "(ou bien tapez 'M' pour revenir au menu) puis validez avec \"Entrée\" : ")
 
-            if select_number.upper() in MENU_LETTERS:
-                menu_view.MenuView.action_from_choice(select_number.upper())
-            elif select_number.isnumeric() == False or int(select_number) not in range(1, number_of_products + 1):
-                print("\nVous n'avez pas saisi le numéro d'un des produits proposées, veuillez recommencer s'il vous plait.\n")
+            if selected_number.upper() == 'M':
+                proceed = False
+                self.menu.display_menu()
+            elif selected_number.isnumeric() == False or int(selected_number) not in range(1, number_of_products + 1):
+                print("\nVous n'avez pas saisi l'un des choix proposés, veuillez recommencer s'il vous plait.\n")
             else:
                 for code_prod in self.codes_prod__of_selected_category:
-                    if code_prod[0] == int(select_number):
+                    if code_prod[0] == int(selected_number):
                         for product in products_of_selected_category_list:
                             if code_prod[1] == product.get_id():
                                 selected_product = product
                                 break
-
-                print("\nMerci !")
-                print("Vous avez choisi de trouver un substitut au produit suivant : ")
-                print("==> {} (produit n° {}).".format(selected_product.get_designation(), select_number))
 
                 proceed = False
 
@@ -110,7 +108,7 @@ class ProductView:
             print(
                 f'==> {selected_product.get_designation()} - {selected_product.get_nutriscore()} - {selected_product.get_novascore()} - {selected_product.get_brand()}'
                 )
-            print("\nVous avez déjà choisi le meilleur produit dans cette catégorie, nous n'avons pas d'autre produit à vous proposer !")
+            print("\nVous avez choisi un excellent produit dans cette catégorie, nous n'en avons pas de meilleur à vous proposer !")
         
         return substitutes_list
     
@@ -121,38 +119,56 @@ class ProductView:
         substitutes_list = self.show_potential_substitutes(category_id, selected_product)
         number_of_products = len(substitutes_list)
 
-        while proceed:
-            menu_view.MenuView.display_line_menu()
-            select_number = input("\nSélectionner un produit de substitution tapant son numéro (ou bien tapez un code du menu) : ")
+        if number_of_products == 0:
+            # The menu is displayed to continue
+            self.menu.display_menu()
+        else :
+            while proceed:
+                select_number = input("\nSélectionner un produit de substitution tapant son numéro "
+                                    "(ou bien tapez un code du menu) puis validez avec \"Entrée\" : ")
 
-            if select_number.upper() in MENU_LETTERS:
-                menu_view.MenuView.action_from_choice(select_number.upper())
-            elif select_number.isnumeric() == False or int(select_number) not in range(1, number_of_products + 1):
-                print("\nVous n'avez pas saisi le numéro d'un des produits proposées, veuillez recommencer s'il vous plait.\n")
-            else:
-                for code_sub in self.codes_sub_of_selected_product:
-                    if code_sub[0] == int(select_number):
-                        for substitute in substitutes_list:
-                            if code_sub[1] == substitute.get_id():
-                                selected_substitute = substitute
-                                break
+                if select_number.upper() == 'M':
+                    proceed = False
+                    self.menu.display_menu()
+                elif select_number.isnumeric() == False or int(select_number) not in range(1, number_of_products + 1):
+                    print("\nVous n'avez pas saisi le numéro d'un des produits proposées, veuillez recommencer s'il vous plait.\n")
+                else:
+                    for code_sub in self.codes_sub_of_selected_product:
+                        if code_sub[0] == int(select_number):
+                            for substitute in substitutes_list:
+                                if code_sub[1] == substitute.get_id():
+                                    selected_substitute = substitute
+                                    break
 
-                print("\nMerci !")
-                print('Vous avez choisi le produit "{}" (produit n° {}).'.format(selected_product.get_designation(), select_number))
+                    print("\nMerci !")
+                    print('Vous avez choisi le produit "{}" (produit n° {}).'.format(selected_product.get_designation(), select_number))
 
-                proceed = False
+                    proceed = False
 
         return selected_substitute
 
     def save_substitute(self, selected_product, selected_substitute):
         substitute = Substitute(selected_product.get_id(), selected_substitute.get_id())
-        insert = self.substitute_logic.insert(substitute)
-        if insert == None:
-            print("\nCe produit de substitution vient d'être sauvegardé, vous pourrez le retrouver, "
-                "avec tous les autres produits enregistrés, en choisissant le menu 'B' "
-                "(Mes aliments de remplacement)")
-        else:
-            print(insert)
+        proceed = True
+        
+        while proceed:
+            print('\nSouhaitez-vous enregistrer ce substitut afin de pouvoir le rtrouver plus tard ?')
+            save_or_not = input("Tapez 'O' pour oui, 'N' pour non puis validez avec \"Entrée\" : ")
+            
+            if save_or_not.upper() == 'O' or save_or_not == str(0):
+                insert = self.substitute_logic.insert(substitute)
+                if insert == None:
+                    print("\nCe produit de substitution vient d'être sauvegardé, vous pourrez le retrouver, "
+                        "avec tous les autres produits enregistrés, en choisissant le menu 'B' "
+                        "(Mes aliments de remplacement)")
+                    proceed = False
+                else:
+                    print(insert)
+                    proceed = False
+            elif save_or_not.upper() == 'N':
+                proceed = False
+            else:
+                print("\nVous n'avez pas saisi une des lettres proposées, veuillez recommencer s'il vous plait.\n")
 
         # The menu is displayed to continue
-        menu_view.MenuView.make_transition()
+        self.menu.display_menu()

@@ -46,7 +46,7 @@ class SubstituteService:
         
         for element in cursor:
             if element:
-                already_exist = "\nAttention : le produit de substitution {substituted_product} est déjà associé en base de données comme remplaçant du produit {initial_product}, il n\'a donc pas été enregistré.".format(substituted_product=element[2], initial_product=element[3])
+                already_exist = "\nAttention : ce produit de substitution {substituted_product} est déjà associé en base de données comme remplaçant du produit {initial_product}, il n\'a donc pas été enregistré.".format(substituted_product=element[2], initial_product=element[3])
 
         cursor.close()
         cnx.close()
@@ -91,7 +91,7 @@ class SubstituteService:
                     INNER JOIN substitutes s \
                     ON (s.initial_product_id = p.id) \
                     )sub \
-                ORDER BY ID DESC"
+                ORDER BY ID ASC"
             )
         cursor.execute(query)
 
