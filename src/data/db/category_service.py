@@ -52,24 +52,25 @@ class CategoryService:
         cnx = connector.connection()
         cursor = cnx.cursor()
 
-        query = ("SELECT DISTINCT id, designation \
-                FROM categories c \
-                INNER JOIN products_categories pc \
-                ON pc.category_id = c.id \
-                WHERE ( \
-                    SELECT COUNT(product_id) \
-                    FROM products_categories pc \
-                    WHERE pc.category_id = c.id \
-                    ) > (%s) \
-                AND ( \
-                    SELECT COUNT(product_id) \
-                    FROM products_categories pc \
-                    WHERE pc.category_id = c.id \
-                    ) < (%s) \
-                AND ( \
-                    SELECT LENGTH(c.designation) < 31 \
-                    ) \
-                ORDER BY c.designation ASC"
+        query = (
+            "SELECT DISTINCT id, designation \
+            FROM categories c \
+            INNER JOIN products_categories pc \
+            ON pc.category_id = c.id \
+            WHERE ( \
+                SELECT COUNT(product_id) \
+                FROM products_categories pc \
+                WHERE pc.category_id = c.id \
+                ) > (%s) \
+            AND ( \
+                SELECT COUNT(product_id) \
+                FROM products_categories pc \
+                WHERE pc.category_id = c.id \
+                ) < (%s) \
+            AND ( \
+                SELECT LENGTH(c.designation) < 31 \
+                ) \
+            ORDER BY c.designation ASC"
         )
         cursor.execute(query, (MINIMUM_NUMBER_OF_PRODUCTS_PER_CATEGORY, MAXIMUM_NUMBER_OF_PRODUCTS_PER_CATEGORY))
 

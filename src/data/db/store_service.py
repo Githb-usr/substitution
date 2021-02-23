@@ -41,3 +41,28 @@ class StoreService:
         connector.close()
 
         return stores
+    
+    def get_stores_of_product(self, product_id):
+        """ Get all the stores that sell a given product """
+        stores = []
+        connector = Connector()
+        cnx = connector.connection()
+        cursor = cnx.cursor()
+
+        query = (
+            "SELECT id, designation \
+            FROM stores AS s \
+            INNER JOIN products_stores AS ps \
+            ON ps.store_id = s.id \
+            WHERE ps.product_id = (%s)"
+        )
+        cursor.execute(query, (product_id,))
+
+        for element in cursor:
+            store = Store(id=element[0], store_name=element[1])
+            stores.append(store)
+
+        cursor.close()
+        connector.close()
+
+        return stores

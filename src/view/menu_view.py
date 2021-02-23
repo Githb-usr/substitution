@@ -12,15 +12,15 @@ from config.settings import MENU_LETTERS
 class MenuView:
     """
         MenuView class
-        To manage the main interface menu
+        To manage the interface menu
     """
 
     def display_column_menu(self):
-        menu_str = "--------------------------------\nMENU : \
+        menu_str = "--------------------------------\nMENU \
             \nA : Remplacer un aliment \
             \nB : Mes aliments de remplacement \
-            \nC : Réinitialiser la base de données \
-            \nD : Quitter\n--------------------------------"
+            \nC : Réinitialiser l'application \
+            \nD : Quitter l'application\n--------------------------------"
 
         print(menu_str)
 
@@ -66,13 +66,13 @@ class MenuView:
         reset = Helpers()
         proceed = True
 
-        print("\nLa base de données de l'application va être réinitialisée. "
+        print("\nL'application va être réinitialisée. "
               "Etes-vous certain(e) de vouloir faire cela ? "
               "Cela va effacer tous les produits et tous les substituts enregistrés.")
 
         while proceed:
-            warning = input("\nTapez 'O' pour continuer ou 'M' pour revenir au menu : \n")
-            if warning.upper() == 'O' or warning == 0:
+            warning = input("\nTapez 'O' pour continuer et réinitialiser l'application ou 'M' pour revenir au menu : \n")
+            if warning.upper() == 'O' or warning == str(0):
                 proceed = False
                 print("Cela va prendre quelques minutes, merci de bien vouloir patienter.")
                 reset.empty_database()
@@ -92,7 +92,7 @@ class MenuView:
         print("\nEtes-vous certain(e) de vouloir fermer l'application ?")
         while proceed:
             warning = input("\nTapez 'O' pour continuer et fermer ou 'M' pour revenir au menu : \n")
-            if warning.upper() == 'O' or warning == 0:
+            if warning.upper() == 'O' or warning == str(0):
                 proceed = False
                 print("\nL'application \"Substitution\" va être fermée. Merci de l'avoir utilisé, et à bientôt !\n")
                 sys.exit(0)

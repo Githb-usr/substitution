@@ -26,15 +26,15 @@ class Helpers:
         """ The product data is inserted into the MySQL database. """
         logic = ProductLogic()
         
-        try:
-            # We create the list of product objects
-            products = self.objects_factory.create_product_object_list()
-            products = set(products)
+        # try:
+        # We create the list of product objects
+        products = self.objects_factory.create_product_object_list()
+        products = set(products)
 
-            for product in products:
-                logic.insert(product)
-        except:
-            print('Il y a eu un problème lors de la récupération des données, veuillez rééssayer')
+        for product in products:
+            logic.insert(product)
+        # except:
+        #     print('Il y a eu un problème lors de la récupération des données, veuillez rééssayer')
 
     def insert_categories(self):
         """ The category data is inserted into the MySQL database. """

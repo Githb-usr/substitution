@@ -21,7 +21,7 @@ class CategoryView:
         categories = self.logic.get_categories_to_select()
         i = 0  
              
-        print(f"\n{'N°':>4} - {'Catégorie'}")
+        print(f"\n{'N°':>2} - {'Catégorie'}")
         print("----------------------------------")
         while i < len(categories):
             if i + 1 < len(categories):
@@ -51,7 +51,7 @@ class CategoryView:
                 i = i + 1
                 
         print("----------------------------------")
-        print(f"{'N°':>4} - {'Catégorie'}\n")
+        print(f"{'N°':>2} - {'Catégorie'}\n")
         
         return categories
 

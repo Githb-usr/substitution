@@ -58,6 +58,7 @@ class DataCleaner:
             value_strip = value.strip().capitalize()
             clean_field_list.append(value_strip)
 
+        print(clean_field_list)
         clean_field_list = list(set(clean_field_list))
 
         return clean_field_list

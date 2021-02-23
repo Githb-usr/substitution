@@ -20,3 +20,7 @@ class StoreLogic:
     def get_all(self):
         """ Get all stores objects """
         return self.service.get_all()
+    
+    def get_stores_of_product(self, product_id):
+        """ Get all the stores that sell a given product """
+        return self.service.get_stores_of_product(product_id)

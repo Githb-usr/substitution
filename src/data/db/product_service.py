@@ -106,7 +106,7 @@ class ProductService:
     
     def get_potential_substitutes_list(self, category_id, selected_product):
         """ We are looking for a better product than the one selected from database """
-        products = []
+        potential_substitutes = []
 
         connector = Connector()
         cnx = connector.connection()
@@ -125,7 +125,7 @@ class ProductService:
                                         FROM products_categories AS pc
                                         WHERE pc.product_id = (%s)
                                         )
-                    ) > 2
+                    ) > 3
                 AND p.nutriscore < (%s)
                 AND p.novascore <= (%s)
                 ORDER BY p.nutriscore DESC, p.novascore DESC'''
@@ -141,9 +141,9 @@ class ProductService:
                 nova_group=element[4], 
                 product_url=element[5]
                 )
-            products.append(product)
+            potential_substitutes.append(product)
 
         cursor.close()
         connector.close()
 
-        return products
+        return potential_substitutes

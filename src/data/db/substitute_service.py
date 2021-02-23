@@ -29,7 +29,7 @@ class SubstituteService:
         return already_exist
         
     def check_if_already_registered(self, substitute):
-        """ xxx """
+        """ Check if a substitute (couple "initial food" + "substituted food") already exists in the database. """
         already_exist = None
         
         connector = Connector()
