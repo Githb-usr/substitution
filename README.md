@@ -9,7 +9,7 @@ This application makes it possible to choose a food for which one wishes to obta
 The Open Food Facts website (FR): https://fr.openfoodfacts.org/
 
 
-# ¶ FEATURES ¶
+# FEATURES #
 * The application connects to the Open Food Facts API and downloads a list of products.
 * The application saves these products in a database.
 * The user interacts with the application in a console.
