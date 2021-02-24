@@ -25,8 +25,8 @@ FIELDS_OF_PRODUCT_LIST = ('code', 'product_name', 'brands', 'categories', 'nutri
 MINIMUM_NUMBER_OF_PRODUCTS_PER_CATEGORY = 25
 MAXIMUM_NUMBER_OF_PRODUCTS_PER_CATEGORY = 75
 
-# Letters to select the different choices in the application menu
-MENU_LETTERS = ['A', 'B', 'C', 'D']
+# Numbers to select the different choices in the application menu
+MENU_NUMBERS = [1, 2, 3, 4]
 
 # List of database tables
 TABLES = ['substitutes', 'products_stores', 'products_categories', 'stores', 'categories', 'products']

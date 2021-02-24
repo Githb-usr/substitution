@@ -7,7 +7,7 @@ from src.view import product_view
 from src.view import substitute_view
 from src.data.db.helpers import Helpers
 
-from config.settings import MENU_LETTERS
+from config.settings import MENU_NUMBERS
 
 class MenuView:
     """
@@ -17,10 +17,10 @@ class MenuView:
 
     def display_column_menu(self):
         menu_str = "--------------------------------\nMENU \
-            \nA : Remplacer un aliment \
-            \nB : Mes aliments de remplacement \
-            \nC : Réinitialiser l'application \
-            \nD : Quitter l'application\n--------------------------------"
+            \n1 - Remplacer un aliment \
+            \n2 - Mes aliments de remplacement \
+            \n3 - Réinitialiser l'application \
+            \n4 - Quitter l'application\n--------------------------------"
 
         print(menu_str)
 
@@ -28,24 +28,24 @@ class MenuView:
         proceed = True
 
         while proceed:
-            selected_menu = input("\nSélectionnez un code du menu puis validez avec \"Entrée\" : ").upper()
+            selected_menu = input("\nSélectionnez un chiffre du menu puis validez avec \"Entrée\" : ")
 
-            if selected_menu not in MENU_LETTERS:
-                print("\nVous n'avez pas saisi le code d'un menu, veuillez recommencer s'il vous plait.\n")
+            if int(selected_menu) not in MENU_NUMBERS:
+                print("\nVous n'avez pas saisi le chiffre d'un menu, veuillez recommencer s'il vous plait.\n")
             else:
-                if selected_menu == 'A':
+                if int(selected_menu) == 1:
                     self.replace_product()
-                elif selected_menu == 'B':
+                elif int(selected_menu) == 2:
                     self.see_substituted_products()
-                elif selected_menu == 'C':
+                elif int(selected_menu) == 3:
                     self.reset_database()
-                elif selected_menu == 'D':
+                elif int(selected_menu) == 4:
                     self.quit_application()
 
                 proceed = False
                 
     def display_menu(self):
-        print("\n\nChoisissez un menu pour continuer.\r")        
+        print("\n\nChoisissez un chiffre du menu pour continuer.\r")        
         self.display_column_menu()
         self.select_menu()
 

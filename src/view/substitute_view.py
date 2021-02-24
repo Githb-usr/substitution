@@ -6,8 +6,6 @@ from src.data.model.substitute import Substitute
 from src.logic.substitute_logic import SubstituteLogic
 from src.view import menu_view
 
-from config.settings import MENU_LETTERS
-
 class SubstituteView:
     """
         SubstituteView class
