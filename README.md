@@ -1,29 +1,59 @@
-# ORIGINE #
-Ce projet est un exercice fait dans le cadre d'une formation OpenClassrooms de développeur en langage Python.
-Il correspond au projet 5 de la formation.
+# ORIGIN #
+This project is an exercise done as part of an OpenClassrooms training course for developers in the Python language.
+It corresponds to project 5 of the training.
 
 
-# BUT DU PROGRAMME #
-Ce programme  permet de choisir un aliment pour lequel on souhaite obtenir un substitut de meilleure qualité, afin d'améliorer son alimentation.
-Il repose sur la base de données d'Open Food Facts. C'est une base de données libre et collaborative référençant les produits alimentaires du monde entier.
+# GOAL OF THE APPLICATION #
+This application makes it possible to choose a food for which one wishes to obtain a better quality substitute, in order to improve one's diet. It's based on the Open Food Facts database. It's a free and collaborative database referencing food products from all over the world.
 
-Le site (FR) d'Open Food Facts : https://fr.openfoodfacts.org/
-
-
-# FONCTIONNALITES #
-L'utilisateur est sur un terminal. Ce dernier lui affiche les choix suivants :
-1. Sélectionner un aliment à remplacer
-2. Retrouver mes aliments substitués
-
-L'utilisateur sélectionne 1. Le programme pose les questions suivantes à l'utilisateur et ce dernier sélectionne les réponses :
-* Sélectionnez la catégorie. [Plusieurs propositions associées à un chiffre. L'utilisateur entre le chiffre correspondant et appuie sur entrée]
-* Sélectionnez l'aliment. [Plusieurs propositions associées à un chiffre. L'utilisateur entre le chiffre correspondant à l'aliment choisi et appuie sur entrée]
-* Le programme propose un substitut, sa description, un magasin ou l'acheter (le cas échéant) et un lien vers la page d'Open Food Facts concernant cet aliment.
-* L'utilisateur a alors la possibilité d'enregistrer le résultat dans la base de données.
+The Open Food Facts website (FR): https://fr.openfoodfacts.org/
 
 
-# CONTRAINTES #
-Le langage de programmation utilisé est Python.
-La recherche doit s'effectuer sur une base MySQL.
-Cette base de données est alimentée grâce à l'API de Open Food Facts. Une fois ces donénes récupérées, on ne se connecte plus à l'API. On récupère seulement une dizaine de catégories d'aliments et une centaine d'aliments de chaque catégorie.
+# FEATURES #
+* The application connects to the Open Food Facts API and downloads a list of products.
+* The application saves these products in a database.
+* The user interacts with the application in a console.
+* The user can select a product from the database.
+* The user can search for a product of better nutritional quality (a substitute).
+* The user can save the result of his search for a substitute.
+* The user can display a list of all substitutes he has registered.
+* The user can empty the database and reload a list of products (substitutes are then lost).
+* The user can quit the application.
 
+
+# USER PATH #
+The user is on the console. The machine displays the following choices:
+1. Replace a food
+2. My replacement foods (or substitutes)
+3. Reset the application
+4. Exit the application
+
+The user selects 1. The application asks the user the following questions and the user selects the answers :
+* Select the category.
+  => Several proposals associated with a number. The user enters the corresponding number and presses "Enter".
+* Select the food.
+  => Several proposals associated with a number. The user enters the number corresponding to the selected food and presses "Enter".
+* The programme provides a substitute, its description, where to buy it (if available) and a link to the Open Food Facts page for that food.
+* The user then has the option to save the result in the database.
+
+
+# CONSTRAINTS #
+* The programming language used is Python.
+* The search must be carried out on a MySQL database.
+* This database is powered by the Open Food Facts API. Once the data has been retrieved, the API is no longer connected.
+* If the user enters a character that is not a number, the program must repeat the question.
+
+
+# EXAMPLE OF A PRODUCT DICTIONARY RECOVERED VIA API AFTER FIRST CLEANUP #
+The fields kept for the application are therefore, in alphabetical order : 
+* brands            (For the user's information)
+* categories        (To filter the products)
+* code              (To identify the product)
+* nova_group        (To determine nutritional quality)
+* nutriscore_grade  (To determine nutritional quality)
+* product_name      (To identify the product)
+* stores            (For the user's information)
+* url               (For the user's information)
+
+```python
+{'nova_group': 4, 'stores': 'Leclerc,Magasins U, Carrefour', 'url': 'https://fr.openfoodfacts.org/produit/3760049790252/toastiligne-la-boulangere', 'brands': 'la boulangère', 'code': '3760049790252', 'product_name': 'Toastiligne', 'nutriscore_grade': 'a', 'categories': "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Céréales et pommes de terre, Pains, Pains de mie"}

@@ -5,3 +5,10 @@ __pycache__/
 
 # Environments
 envp5/
+.vscode/
+.env
+mysql.conf
+
+# Divers
+pip
+get-pip.py
