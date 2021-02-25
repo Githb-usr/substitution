@@ -20,19 +20,23 @@ class OpenFoodApi:
         """
         params = {
             'action': 'process',
-            'json': 'true',
-            'page_size': PAGE_SIZE,
-            'page': page_number,
-            'fields': FIELDS_OF_PRODUCT,
-            'sort_by': 'unique_scans_n'
+            'json': 'true', # Get JSON data
+            'page_size': PAGE_SIZE, # Number of products per page downloaded
+            'page': page_number, # Number of product pages you want to download
+            'fields': FIELDS_OF_PRODUCT, # List of fields to keep among all the existing ones
+            'sort_by': 'unique_scans_n' # Sorting by most popular products
             }
         headers = {'User-Agent': 'NameOfYourApp - Android - Version 1.0 - www.yourappwebsite.com'}
         result = requests.get(API_BASE_URL, headers = headers, params = params)
-        print(result.status_code)
-        data = result.json()
-        products_data = data['products']
-
-        return products_data
+        if result.status_code == 200:
+            data = result.json()
+            products_data = data['products'] # Only the value of the 'products' key is kept (there are other keys in the JSON object).
+            
+            return products_data
+        else:
+            print("La connexion à l'API d'Open Food Facts a échoué.")
+            print("Nouvelle tentative.")
+            self.get_full_api_products()
 
     def get_full_api_products(self):
         """

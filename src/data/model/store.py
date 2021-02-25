@@ -6,7 +6,6 @@ class Store:
         Store class
         To manage Store object
     """
-
     def __init__(self, store_name, id=None):
         """ Constructor """
         self.id = id

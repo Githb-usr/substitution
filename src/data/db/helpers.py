@@ -14,10 +14,6 @@ class Helpers:
         Helpers class
         To manage the populating of the MySQL database
     """
-    def empty_database(self):
-        logic = DatabaseLogic()
-        logic.empty_database()
-
     def __init__(self):
         """ Constructor """
         self.objects_factory = ObjectsFactory()
@@ -26,15 +22,15 @@ class Helpers:
         """ The product data is inserted into the MySQL database. """
         logic = ProductLogic()
         
-        # try:
-        # We create the list of product objects
-        products = self.objects_factory.create_product_object_list()
-        products = set(products)
+        try:
+            # We create the list of product objects
+            products = self.objects_factory.create_product_object_list()
+            products = set(products)
 
-        for product in products:
-            logic.insert(product)
-        # except:
-        #     print('Il y a eu un problème lors de la récupération des données, veuillez rééssayer')
+            for product in products:
+                logic.insert(product)
+        except:
+            print('Il y a eu un problème lors de la récupération des données, veuillez rééssayer')
 
     def insert_categories(self):
         """ The category data is inserted into the MySQL database. """
@@ -81,9 +77,14 @@ class Helpers:
             logic.insert(p_c)
 
     def populate_database(self):
-        """ We populate the MySQL database """
+        """ Populate the MySQL database in the right order """
         self.insert_products()
         self.insert_categories()
         self.insert_products_categories()
         self.insert_stores()
         self.insert_products_stores()
+        
+    def empty_database(self):
+        """ Delete all data from the database """
+        logic = DatabaseLogic()
+        logic.empty_database()

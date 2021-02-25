@@ -9,7 +9,7 @@ This application makes it possible to choose a food for which one wishes to obta
 The Open Food Facts website (FR): https://fr.openfoodfacts.org/
 
 
-# ¶ FEATURES ¶
+# FEATURES #
 * The application connects to the Open Food Facts API and downloads a list of products.
 * The application saves these products in a database.
 * The user interacts with the application in a console.
@@ -30,7 +30,7 @@ The user is on the console. The machine displays the following choices:
 
 The user selects 1. The application asks the user the following questions and the user selects the answers :
 * Select the category.
-  => several proposals associated with a number. The user enters the corresponding number and presses "Enter".
+  => Several proposals associated with a number. The user enters the corresponding number and presses "Enter".
 * Select the food.
   => Several proposals associated with a number. The user enters the number corresponding to the selected food and presses "Enter".
 * The programme provides a substitute, its description, where to buy it (if available) and a link to the Open Food Facts page for that food.
@@ -42,3 +42,18 @@ The user selects 1. The application asks the user the following questions and th
 * The search must be carried out on a MySQL database.
 * This database is powered by the Open Food Facts API. Once the data has been retrieved, the API is no longer connected.
 * If the user enters a character that is not a number, the program must repeat the question.
+
+
+# EXAMPLE OF A PRODUCT DICTIONARY RECOVERED VIA API AFTER FIRST CLEANUP #
+The fields kept for the application are therefore, in alphabetical order : 
+* brands            (For the user's information)
+* categories        (To filter the products)
+* code              (To identify the product)
+* nova_group        (To determine nutritional quality)
+* nutriscore_grade  (To determine nutritional quality)
+* product_name      (To identify the product)
+* stores            (For the user's information)
+* url               (For the user's information)
+
+```python
+{'nova_group': 4, 'stores': 'Leclerc,Magasins U, Carrefour', 'url': 'https://fr.openfoodfacts.org/produit/3760049790252/toastiligne-la-boulangere', 'brands': 'la boulangère', 'code': '3760049790252', 'product_name': 'Toastiligne', 'nutriscore_grade': 'a', 'categories': "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Céréales et pommes de terre, Pains, Pains de mie"}```

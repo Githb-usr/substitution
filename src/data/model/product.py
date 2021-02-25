@@ -8,7 +8,6 @@ class Product:
         Product class
         To manage Product object
     """
-
     def __init__(self, code, product_name, brand, nutriscore_grade, nova_group, product_url):
         """ Constructor """
         self.id = code

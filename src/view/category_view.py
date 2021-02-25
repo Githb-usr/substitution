@@ -18,6 +18,7 @@ class CategoryView:
         self.codes = []
 
     def show_categories_to_select(self):
+        """ Show all categories so that the user can search for a product """
         categories = self.logic.get_categories_to_select()
         i = 0  
              
@@ -56,6 +57,7 @@ class CategoryView:
         return categories
 
     def select_a_category(self):
+        """ Interaction with the user to select a category """
         categories_set = set()
         selected_category = ()
         proceed = True

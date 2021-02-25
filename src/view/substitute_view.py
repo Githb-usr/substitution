@@ -11,7 +11,6 @@ class SubstituteView:
         SubstituteView class
         To manage the display of substitutes in the application interface
     """
-
     def __init__(self):
         """ Constructor """
         self.menu = menu_view.MenuView()
@@ -19,9 +18,7 @@ class SubstituteView:
         self.substitute_logic = SubstituteLogic()
 
     def show_all_substitutes(self):
-        """
-        We display substitutes and the products they replace
-        """
+        """ Display substitutes and the products they replace """
         # Get the list of substitutes and replaced products
         substitutes = self.substitute_logic.get_all()
         i = 1

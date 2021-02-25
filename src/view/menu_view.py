@@ -14,8 +14,8 @@ class MenuView:
         MenuView class
         To manage the interface menu
     """
-
     def display_column_menu(self):
+        """ Display the menu """
         menu_str = "--------------------------------\nMENU \
             \n1 - Remplacer un aliment \
             \n2 - Mes aliments de remplacement \
@@ -25,12 +25,13 @@ class MenuView:
         print(menu_str)
 
     def select_menu(self):
+        """ Interaction with the user to choose a menu and then redirect to the display corresponding to the user's choice """
         proceed = True
 
         while proceed:
             selected_menu = input("\nSélectionnez un chiffre du menu puis validez avec \"Entrée\" : ")
 
-            if int(selected_menu) not in MENU_NUMBERS:
+            if selected_menu.isalpha() or int(selected_menu) not in MENU_NUMBERS:
                 print("\nVous n'avez pas saisi le chiffre d'un menu, veuillez recommencer s'il vous plait.\n")
             else:
                 if int(selected_menu) == 1:
@@ -45,11 +46,13 @@ class MenuView:
                 proceed = False
                 
     def display_menu(self):
+        """ Display the menu with the input field """
         print("\n\nChoisissez un chiffre du menu pour continuer.\r")        
         self.display_column_menu()
         self.select_menu()
 
     def replace_product(self):
+        """ The entire sequence of interactions with the user to find a substitute for a given product """
         category = category_view.CategoryView()
         product = product_view.ProductView()
         
@@ -59,10 +62,12 @@ class MenuView:
         product.save_substitute(selected_product, selected_substitute)
 
     def see_substituted_products(self):
+        """ Displays the list of all registered substitutes """
         substitute = substitute_view.SubstituteView()
         substitute.show_all_substitutes()
 
     def reset_database(self):
+        """ Reset the database by deleting all data and downloading a new set of data via the API """
         reset = Helpers()
         proceed = True
 
@@ -87,6 +92,7 @@ class MenuView:
                         "veuillez recommencer s'il vous plait.\n")
 
     def quit_application(self):
+        """ Close the application """
         proceed = True
 
         print("\nEtes-vous certain(e) de vouloir fermer l'application ?")

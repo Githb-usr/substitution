@@ -13,7 +13,7 @@ class Connector:
 
     def connection(self):
         """
-            To open the connection to the MySQL database
+            Open the connection to the MySQL database
             :return: the connection object
         """
         try:
@@ -25,6 +25,6 @@ class Connector:
             print("La connexion à la base de données a échoué", e)    
 
     def close(self):
-        """ To close the connection to the MySQL database """
+        """ Close the connection to the MySQL database """
         self.cnx.close()
   

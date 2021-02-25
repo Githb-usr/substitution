@@ -8,7 +8,6 @@ class SubstituteLogic:
         SubstituteLogic class
         To manage the Substitute object in the application
     """
-
     def __init__(self):
         """ Constructor """
         self.service = SubstituteService()

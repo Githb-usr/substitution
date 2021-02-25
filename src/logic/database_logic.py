@@ -8,7 +8,6 @@ class DatabaseLogic:
         DatabaseLogic class
         To manage the Database object in the application
     """
-
     def __init__(self):
         """ Constructor """
         self.service = DatabaseService()

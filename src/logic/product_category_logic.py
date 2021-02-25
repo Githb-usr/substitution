@@ -8,7 +8,6 @@ class ProductCategoryLogic:
         ProductCategoryLogic class
         To manage the ProductCategory object in the application
     """
-
     def __init__(self):
         """ Constructor """
         self.service = ProductCategoryService()

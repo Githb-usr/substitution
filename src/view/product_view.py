@@ -20,12 +20,13 @@ class ProductView:
         self.product_logic = ProductLogic()
         self.store_logic = StoreLogic()
         self.substitute_logic = SubstituteLogic()
-        self.codes_prod__of_selected_category = []
+        self.codes_prod_of_selected_category = []
         self.codes_sub_of_selected_product = []
         
     def show_products_of_selected_category(self, selected_category):
-        """ xxx """
+        """ Show all products in the category selected by the user """
         try:
+            # Get the list of all products in the category selected by the user
             products = self.product_logic.get_all_products_of_category(selected_category.get_id())
             
             i = 1
@@ -34,7 +35,8 @@ class ProductView:
             print('  N° - Nom - Nutriscore - Novascore - Marque')
             print('|-----------------------------------------------------------------------------------------------------------------------------|')
             for product in products:
-                self.codes_prod__of_selected_category.append((i, product.get_id()))
+                # Associate the product number (in the list of products) with the product id
+                self.codes_prod_of_selected_category.append((i, product.get_id()))
                 print(
                     f'| {i!s:>2} - {product.get_designation()[0:80]!s:<82} | {product.get_nutriscore()} | {product.get_novascore()} | {product.get_brand()!s:<25} |'
                     )
@@ -55,10 +57,11 @@ class ProductView:
             self.menu.display_menu()
     
     def select_product(self, selected_category):
-        """ xxx """
+        """ Interaction with the user to select the initial product for which he wants to find a substitute """
         selected_product = None
         proceed = True
 
+        # Get list of products object in the category selected by the user
         products_of_selected_category_list = self.show_products_of_selected_category(selected_category)
         number_of_products = len(products_of_selected_category_list)
 
@@ -72,10 +75,13 @@ class ProductView:
             elif selected_number.isnumeric() == False or int(selected_number) not in range(1, number_of_products + 1):
                 print("\nVous n'avez pas saisi l'un des choix proposés, veuillez recommencer s'il vous plait.\n")
             else:
-                for code_prod in self.codes_prod__of_selected_category:
+                for code_prod in self.codes_prod_of_selected_category:
+                    # If the number entered by the user corresponds to the number of the product in the product list
                     if code_prod[0] == int(selected_number):
                         for product in products_of_selected_category_list:
+                            # And if the id associated with the product number corresponds to the id of the product object
                             if code_prod[1] == product.get_id():
+                                # Then the selected product is the product object
                                 selected_product = product
                                 break
 
@@ -84,7 +90,7 @@ class ProductView:
         return selected_product
 
     def show_potential_substitutes(self, category_id, selected_product):
-        """ xxx """
+        """ Show all potential substitutes, i.e. products of better nutritional quality than the initial product selected by the user. """
         # Get list of substitutes object for selected product
         potential_substitutes_list = self.product_logic.get_potential_substitutes_list(category_id, selected_product)
         i = 1
@@ -135,13 +141,15 @@ class ProductView:
         return potential_substitutes_list
     
     def select_substitute(self, category_id, selected_product):
-        """ xxx """
+        """ Interaction with the user to select the substituted product """
         selected_substitute = ()
         proceed = True
 
+        # Get the list of potential substitutes
         potential_substitutes_list = self.show_potential_substitutes(category_id, selected_product)
         number_of_products = len(potential_substitutes_list)
 
+        # If the list is empty
         if number_of_products == 0:
             # The menu is displayed to continue
             self.menu.display_menu()
@@ -150,16 +158,21 @@ class ProductView:
                 select_number = input("\nSélectionner un produit de substitution tapant son numéro "
                                     "(ou bien tapez un code du menu) puis validez avec \"Entrée\" : ")
 
+                # If the user wants to return to the menu
                 if select_number.upper() == 'M':
                     proceed = False
                     self.menu.display_menu()
+                # If the user's entry is not a number from the list of potential substitutes
                 elif select_number.isnumeric() == False or int(select_number) not in range(1, number_of_products + 1):
                     print("\nVous n'avez pas saisi le numéro d'un des produits proposées, veuillez recommencer s'il vous plait.\n")
                 else:
                     for code_sub in self.codes_sub_of_selected_product:
+                        # If the number entered by the user corresponds to the number of the substitute in the substitute list
                         if code_sub[0] == int(select_number):
                             for substitute in potential_substitutes_list:
+                                # And if the id associated with the substitute number corresponds to the id of the substitute object
                                 if code_sub[1] == substitute.get_id():
+                                    # Then the selected substitute is the substitute object
                                     selected_substitute = substitute
                                     break
 
@@ -174,7 +187,8 @@ class ProductView:
         return selected_substitute
 
     def save_substitute(self, selected_product, selected_substitute):
-        """ xxx """
+        """ Save the selected substitute in the database """
+        # Create the Substitute object corresponding to the selected substitute, with the initial product
         substitute = Substitute(selected_product.get_id(), selected_substitute.get_id())
         proceed = True
         

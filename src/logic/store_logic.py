@@ -8,7 +8,6 @@ class StoreLogic:
         StoreLogic class
         To manage the Store object in the application
     """
-
     def __init__(self):
         """ Constructor """
         self.service = StoreService()

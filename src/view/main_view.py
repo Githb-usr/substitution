@@ -12,7 +12,8 @@ class MainView:
         """ Constructor """
         self.menu = MenuView()
 
-    def start_program(self):
+    def start_application(self):
+        """ Display at application startup """
         print("\nBienvenue sur le programme ''Substitution'' !\r")
         print("Ce programme vous permet de trouver des aliments de substitution de meilleure qualité et meilleurs pour votre santé.\n")
         self.menu.display_menu()
