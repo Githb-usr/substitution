@@ -56,4 +56,4 @@ The fields kept for the application are therefore, in alphabetical order :
 * url               (For the user's information)
 
 ```python
-{'nova_group': 4, 'stores': 'Leclerc,Magasins U, Carrefour', 'url': 'https://fr.openfoodfacts.org/produit/3760049790252/toastiligne-la-boulangere', 'brands': 'la boulangère', 'code': '3760049790252', 'product_name': 'Toastiligne', 'nutriscore_grade': 'a', 'categories': "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Céréales et pommes de terre, Pains, Pains de mie"}```
+{'nova_group': 4, 'stores': 'Leclerc,Magasins U, Carrefour', 'url': 'https://fr.openfoodfacts.org/produit/3760049790252/toastiligne-la-boulangere', 'brands': 'la boulangère', 'code': '3760049790252', 'product_name': 'Toastiligne', 'nutriscore_grade': 'a', 'categories': "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Céréales et pommes de terre, Pains, Pains de mie"}
